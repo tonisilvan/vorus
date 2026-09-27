@@ -41,26 +41,22 @@ export function ShoppingCart({
   return (
     <div className="fixed inset-0 z-[100]">
       {/* Backdrop */}
-      <div 
-        className="absolute inset-0 bg-black/60 backdrop-blur-sm"
-        onClick={onClose}
-      />
+      <button type="button" className="cart-backdrop" onClick={onClose} aria-label="Cerrar carrito" />
       
       {/* Drawer */}
-      <div className="absolute right-0 top-0 h-full w-full sm:max-w-md bg-background shadow-2xl flex flex-col animate-in slide-in-from-right duration-300">
+      <div className="cart-drawer" role="dialog" aria-modal="true" aria-labelledby="cart-title">
         {/* Header */}
-        <div className="flex items-center justify-between p-4 border-b">
+        <div className="cart-heading">
           <div className="flex items-center gap-2">
-            <ShoppingBag className="h-5 w-5" />
-            <h2 className="text-lg font-semibold">Carrito ({items.length})</h2>
+            <div><span className="eyebrow">Tu selección</span><h2 id="cart-title">Carrito <span>({items.length})</span></h2></div>
           </div>
-          <Button variant="ghost" size="icon" onClick={onClose}>
+          <Button variant="ghost" size="icon" onClick={onClose} aria-label="Cerrar carrito">
             <X className="h-5 w-5" />
           </Button>
         </div>
 
         {/* Cart Items */}
-        <div className="flex-1 overflow-y-auto p-4">
+        <div className="cart-items">
           {items.length === 0 ? (
             <div className="flex flex-col items-center justify-center h-full text-center py-12 space-y-4">
               <ShoppingBag className="h-16 w-16 text-muted-foreground/30" />
@@ -77,7 +73,7 @@ export function ShoppingCart({
               {items.map((item) => (
                 <div 
                   key={item.product.id}
-                  className="flex items-center gap-3 p-3 rounded-xl bg-muted/50 border"
+                  className="cart-line"
                 >
                   <div className="relative w-16 h-16 rounded-lg overflow-hidden flex-shrink-0 bg-white">
                     <Image
@@ -99,14 +95,14 @@ export function ShoppingCart({
                     <div className="flex items-center gap-2 mt-2">
                       <button
                         onClick={() => onUpdateQuantity(item.product.id, item.quantity - 1)}
-                        className="w-7 h-7 flex items-center justify-center rounded-md border bg-background hover:bg-accent transition-colors"
+                        className="quantity-stepper" aria-label={`Reducir cantidad de ${item.product.name}`}
                       >
                         <Minus className="h-3 w-3" />
                       </button>
-                      <span className="w-6 text-center text-sm font-medium">{item.quantity}</span>
+                      <span className="w-6 text-center text-sm font-medium" aria-live="polite">{item.quantity}</span>
                       <button
                         onClick={() => onUpdateQuantity(item.product.id, item.quantity + 1)}
-                        className="w-7 h-7 flex items-center justify-center rounded-md border bg-background hover:bg-accent transition-colors"
+                        className="quantity-stepper" aria-label={`Aumentar cantidad de ${item.product.name}`}
                       >
                         <Plus className="h-3 w-3" />
                       </button>
@@ -116,7 +112,7 @@ export function ShoppingCart({
                   <div className="flex flex-col items-end gap-1">
                     <button
                       onClick={() => onRemoveItem(item.product.id)}
-                      className="p-1.5 rounded-md hover:bg-destructive/10 text-muted-foreground hover:text-destructive transition-colors"
+                      className="cart-remove" aria-label={`Eliminar ${item.product.name} del carrito`}
                     >
                       <Trash2 className="h-4 w-4" />
                     </button>
@@ -132,8 +128,8 @@ export function ShoppingCart({
 
         {/* Footer */}
         {items.length > 0 && (
-          <div className="border-t p-4 space-y-4 bg-muted/30">
-            <div className="space-y-1.5">
+          <div className="cart-summary">
+            <div className="cart-totals">
               <div className="flex justify-between text-sm">
                 <span className="text-muted-foreground">Subtotal:</span>
                 <span>{cart.subtotal.toFixed(2)} €</span>
@@ -152,9 +148,9 @@ export function ShoppingCart({
               </div>
             </div>
             
-            <div className="space-y-2">
+            <div className="cart-actions">
               <Link href="/checkout" onClick={onClose}>
-                <Button className="w-full h-12 text-base font-semibold">
+                <Button className="button-primary w-full">
                   Finalizar Compra
                 </Button>
               </Link>

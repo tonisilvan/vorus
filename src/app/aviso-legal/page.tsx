@@ -7,7 +7,7 @@ export const metadata: Metadata = {
 
 export default function AvisoLegalPage() {
   return (
-    <div className="max-w-4xl mx-auto px-4 py-12 space-y-10">
+    <div className="legal-page section-shell">
       <h1 className="text-3xl font-bold">Aviso Legal</h1>
 
       <section className="space-y-4">
@@ -17,7 +17,7 @@ export default function AvisoLegalPage() {
           de Servicios de la Sociedad de la Información y Comercio Electrónico, se hace constar que esta página 
           (vorus.es, nombre comercial Vorus) corresponde a la entidad:
         </p>
-        <div className="bg-zinc-50 dark:bg-zinc-800/50 rounded-xl p-6 space-y-2">
+        <div className="legal-details">
           <p><strong>Razón social:</strong> SUMINISTROS PAYNE, SLU</p>
           <p><strong>CIF:</strong> B42782300</p>
           <p><strong>Domicilio:</strong> Avda. de la Agricultura, 26 Nave 6 – Polígono Bankunión II, 33211 Gijón (Asturias), España</p>

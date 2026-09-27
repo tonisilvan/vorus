@@ -52,8 +52,8 @@ export function ProductDetail({ product }: ProductDetailProps) {
   return (
     <>
       {/* Header */}
-      <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-        <div className="flex h-14 items-center justify-between px-4 md:px-8 max-w-7xl mx-auto">
+      <header className="site-header">
+        <div className="site-header-inner">
           <Link href="/" className="flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors">
             <ArrowLeft className="h-4 w-4" />
             <span className="hidden sm:inline">Volver a productos</span>
@@ -76,12 +76,12 @@ export function ProductDetail({ product }: ProductDetailProps) {
         </div>
       </header>
 
-      <main className="max-w-7xl mx-auto px-4 py-6 md:py-12">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
+      <main className="product-page section-shell">
+        <div className="product-detail-grid">
           
           {/* Image Gallery */}
-          <div className="space-y-4">
-            <div className="relative rounded-2xl overflow-hidden bg-zinc-100 dark:bg-zinc-800" ref={emblaRef}>
+          <div className="product-gallery">
+            <div className="product-gallery-main" ref={emblaRef}>
               <div className="flex">
                 {product.images.map((img, index) => (
                   <div key={index} className="flex-[0_0_100%] min-w-0 relative aspect-square">
@@ -158,7 +158,7 @@ export function ProductDetail({ product }: ProductDetailProps) {
                       title={video.title || product.name}
                       controls
                       playsInline
-                      preload="metadata"
+                      preload="none"
                       poster={mainImage?.url}
                       className="w-full aspect-video"
                     />
@@ -169,8 +169,8 @@ export function ProductDetail({ product }: ProductDetailProps) {
           </div>
 
           {/* Product Info */}
-          <div className="space-y-6">
-            <div className="space-y-3">
+          <div className="product-information">
+            <div className="product-intro">
               <Badge variant="secondary">{product.category}</Badge>
               <h1 className="text-2xl md:text-3xl lg:text-4xl font-bold leading-tight">
                 {product.name}
@@ -180,7 +180,7 @@ export function ProductDetail({ product }: ProductDetailProps) {
               </p>
             </div>
 
-            <div className="bg-zinc-50 dark:bg-zinc-800/50 rounded-xl p-4 space-y-2">
+            <div className="product-price-panel">
               <div className="flex items-baseline gap-2">
                 <span className="text-4xl font-bold text-primary">
                   {variant.price.toFixed(2)} €
@@ -218,10 +218,10 @@ export function ProductDetail({ product }: ProductDetailProps) {
               </p>
             </div>
 
-            <div className="flex flex-col sm:flex-row gap-3 pt-2">
+            <div className="product-purchase">
               <Button 
                 size="lg" 
-                className="flex-1 gap-2 text-base h-14" 
+                className="button-primary w-full"
                 disabled={variant.stock === 0}
                 onClick={() => addItem(product)}
               >
@@ -230,7 +230,7 @@ export function ProductDetail({ product }: ProductDetailProps) {
               </Button>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-4 border-t">
+            <div className="product-promises">
               <div className="flex items-center gap-2 text-sm text-muted-foreground">
                 <Truck className="h-4 w-4 text-green-600" />
                 <span>Envío gratuito</span>

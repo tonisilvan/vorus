@@ -68,7 +68,7 @@ export default function CheckoutPage() {
 
   if (items.length === 0 && !submitted) {
     return (
-      <div className="max-w-2xl mx-auto px-4 py-20 text-center space-y-4">
+      <div className="checkout-state section-shell">
         <h1 className="text-2xl font-bold">Tu carrito está vacío</h1>
         <p className="text-muted-foreground">Añade productos antes de continuar con la compra.</p>
         <Link href="/">
@@ -80,7 +80,7 @@ export default function CheckoutPage() {
 
   if (submitted) {
     return (
-      <div className="max-w-2xl mx-auto px-4 py-20 text-center space-y-4">
+      <div className="checkout-state section-shell">
         <div className="w-16 h-16 bg-green-100 dark:bg-green-900/30 rounded-full flex items-center justify-center mx-auto">
           <ShieldCheck className="h-8 w-8 text-green-600" />
         </div>
@@ -100,20 +100,20 @@ export default function CheckoutPage() {
   }
 
   return (
-    <div className="max-w-6xl mx-auto px-4 py-8">
+    <div className="checkout-page section-shell">
       <Link href="/" className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-primary mb-6">
         <ArrowLeft className="h-4 w-4" />
         Volver a la tienda
       </Link>
 
-      <h1 className="text-3xl font-bold mb-8">Finalizar Compra</h1>
+      <div className="checkout-heading"><span className="eyebrow">Un último paso</span><h1>Finalizar compra</h1><p>Prepara tu pedido con total tranquilidad.</p></div>
 
       <div className="grid lg:grid-cols-3 gap-8">
         {/* Formulario */}
         <div className="lg:col-span-2">
           <form id="checkout-form" onSubmit={handleSubmit} className="space-y-6">
             {/* Datos personales */}
-            <div className="bg-white dark:bg-zinc-900 border rounded-xl p-6 space-y-4">
+            <div className="commerce-panel p-6 space-y-4">
               <h2 className="text-lg font-semibold">Datos personales</h2>
               
               <div className="grid sm:grid-cols-2 gap-4">
@@ -172,7 +172,7 @@ export default function CheckoutPage() {
             </div>
 
             {/* Dirección de envío */}
-            <div className="bg-white dark:bg-zinc-900 border rounded-xl p-6 space-y-4">
+            <div className="commerce-panel p-6 space-y-4">
               <h2 className="text-lg font-semibold flex items-center gap-2">
                 <Truck className="h-5 w-5" />
                 Dirección de envío
@@ -289,7 +289,7 @@ export default function CheckoutPage() {
 
         {/* Resumen del pedido */}
         <div className="lg:col-span-1">
-          <div className="sticky top-4 bg-white dark:bg-zinc-900 border rounded-xl p-6 space-y-4">
+          <div className="checkout-summary commerce-panel p-6 space-y-4">
             <h2 className="text-lg font-semibold">Resumen del pedido</h2>
 
             <div className="space-y-3 max-h-64 overflow-y-auto">
