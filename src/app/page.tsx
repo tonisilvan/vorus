@@ -6,7 +6,7 @@ import { useCart } from '@/context/CartContext';
 import { ShoppingCart as ShoppingCartIcon, Zap, Truck, Shield, Headphones } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
-const baseUrl = 'https://payne-products.vercel.app';
+const baseUrl = 'https://vorus.es';
 
 const jsonLd = {
   '@context': 'https://schema.org',
@@ -14,7 +14,7 @@ const jsonLd = {
     {
       '@type': 'Organization',
       '@id': `${baseUrl}/#organization`,
-      name: 'Suministros Payne',
+      name: 'Vorus',
       url: baseUrl,
       logo: `${baseUrl}/images/powerbank-principal-cable.webp`,
     },
@@ -22,7 +22,7 @@ const jsonLd = {
       '@type': 'WebSite',
       '@id': `${baseUrl}/#website`,
       url: baseUrl,
-      name: 'PAYNE Products',
+      name: 'Vorus',
       publisher: { '@id': `${baseUrl}/#organization` },
     },
     {
@@ -51,8 +51,7 @@ export default function Home() {
         <div className="flex h-14 md:h-16 items-center justify-between px-4 md:px-8 max-w-7xl mx-auto">
           <div className="flex items-center">
             <h1 className="text-xl md:text-2xl font-bold tracking-tight">
-              <span className="text-primary">PAYNE</span>
-              <span className="text-muted-foreground font-light ml-1">Products</span>
+              <span className="text-primary">VORUS</span>
             </h1>
           </div>
           
@@ -160,10 +159,10 @@ export default function Home() {
       <footer className="border-t py-8">
         <div className="max-w-7xl mx-auto px-4 text-center space-y-2">
           <p className="font-semibold">
-            <span className="text-primary">PAYNE</span> Products
+            <span className="text-primary">VORUS</span>
           </p>
           <p className="text-sm text-muted-foreground">
-            © 2026 Suministros Payne, SLU · CIF: B42782300 · Todos los derechos reservados.
+            © 2026 Vorus · Suministros Payne, SLU · CIF: B42782300 · Todos los derechos reservados.
           </p>
           <p className="text-xs text-muted-foreground">
             Precios con IVA incluido · Envío gratuito Península y Portugal
@@ -171,7 +170,7 @@ export default function Home() {
           <p className="text-xs text-muted-foreground space-x-2">
             <a href="/aviso-legal" className="underline hover:text-primary transition-colors">Aviso Legal</a>
             <span>·</span>
-            <a href="mailto:info@suministrospayne.com" className="underline hover:text-primary transition-colors">Contacto</a>
+            <a href="mailto:info@vorus.es" className="underline hover:text-primary transition-colors">Contacto</a>
           </p>
         </div>
       </footer>

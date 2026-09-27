@@ -1,4 +1,4 @@
-# Payne Products - Shopping Cart Website
+# Vorus - Shopping Cart Website (vorus.es)
 
 Una web de carrito de compras moderna y responsive construida con Next.js, TypeScript y Tailwind CSS.
 

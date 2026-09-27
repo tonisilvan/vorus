@@ -1,7 +1,12 @@
 export interface ProductImage {
   url: string;
   alt: string;
-  type: 'principal' | 'secundaria';
+  type: 'principal' | 'secundaria' | 'lifestyle';
+}
+
+export interface ProductVideo {
+  url: string;
+  title?: string;
 }
 
 export interface ProductVariant {
@@ -26,6 +31,7 @@ export interface Product {
   features: string[];
   recommendedUses: string[];
   images: ProductImage[];
+  videos?: ProductVideo[];
   featured: boolean;
   createdAt: string;
   updatedAt: string;

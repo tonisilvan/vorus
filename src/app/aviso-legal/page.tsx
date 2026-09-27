@@ -2,7 +2,7 @@ import { Metadata } from 'next';
 
 export const metadata: Metadata = {
   title: 'Aviso Legal',
-  description: 'Aviso legal, condiciones de uso y datos identificativos de SUMINISTROS PAYNE, SLU.',
+  description: 'Aviso legal, condiciones de uso y datos identificativos de Vorus.',
 };
 
 export default function AvisoLegalPage() {
@@ -15,15 +15,16 @@ export default function AvisoLegalPage() {
         <p className="text-muted-foreground">
           En cumplimiento de las obligaciones establecidas en el artículo 10 de la Ley 34/2002, de 11 de julio, 
           de Servicios de la Sociedad de la Información y Comercio Electrónico, se hace constar que esta página 
-          corresponde a la entidad:
+          (vorus.es, nombre comercial Vorus) corresponde a la entidad:
         </p>
         <div className="bg-zinc-50 dark:bg-zinc-800/50 rounded-xl p-6 space-y-2">
           <p><strong>Razón social:</strong> SUMINISTROS PAYNE, SLU</p>
           <p><strong>CIF:</strong> B42782300</p>
           <p><strong>Domicilio:</strong> Avda. de la Agricultura, 26 Nave 6 – Polígono Bankunión II, 33211 Gijón (Asturias), España</p>
           <p><strong>Teléfono:</strong> (+34) 985 052 099 / (+34) 673 792 977</p>
-          <p><strong>Email:</strong> info@suministrospayne.com</p>
-          <p><strong>Web:</strong> www.suministrospayne.com</p>
+          <p><strong>Nombre comercial:</strong> Vorus</p>
+          <p><strong>Email:</strong> info@vorus.es</p>
+          <p><strong>Web:</strong> www.vorus.es</p>
           <p><strong>Registro Mercantil:</strong> Oviedo, Tomo 4426, Folio 138, Hoja 57311</p>
         </div>
       </section>

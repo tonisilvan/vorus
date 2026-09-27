@@ -6,8 +6,9 @@ export default function robots(): MetadataRoute.Robots {
       {
         userAgent: '*',
         allow: '/',
+        disallow: '/admin',
       },
     ],
-    sitemap: 'https://payne-products.vercel.app/sitemap.xml',
+    sitemap: 'https://vorus.es/sitemap.xml',
   };
 }

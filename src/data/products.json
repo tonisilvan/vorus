@@ -1,11 +1,11 @@
 {
   "products": [
     {
-      "id": "powerbank-payne-10000",
-      "name": "Power Bank PAYNE 10.000 mAh con carga múltiple, carga inalámbrica y sistema de ventosas",
-      "slug": "power-bank-payne-10000-mah",
-      "shortDescription": "Batería externa portátil PAYNE de 10.000 mAh, ligera, compacta y cómoda de transportar. Permite cargar varios dispositivos, incluye carga inalámbrica para móviles compatibles y cuenta con sistema de ventosas para sujetar el teléfono durante la carga.",
-      "longDescription": "El Power Bank PAYNE 10.000 mAh es una batería externa práctica y potente, diseñada para cargar el móvil, tablet u otros dispositivos electrónicos estés donde estés. Su capacidad ofrece energía suficiente para realizar varias cargas, dependiendo del modelo del dispositivo y del uso. Además, permite cargar mediante cable y también de forma inalámbrica en móviles compatibles con esta función. El sistema de ventosas permite fijar el móvil al Power Bank durante la carga, creando una experiencia cómoda y compacta, como si ambos formaran un solo dispositivo.",
+      "id": "powerbank-vorus-10000",
+      "name": "Power Bank Vorus 10.000 mAh con carga múltiple, carga inalámbrica y sistema de ventosas",
+      "slug": "power-bank-vorus-10000-mah",
+      "shortDescription": "Batería externa portátil Vorus de 10.000 mAh, ligera, compacta y cómoda de transportar. Permite cargar varios dispositivos, incluye carga inalámbrica para móviles compatibles y cuenta con sistema de ventosas para sujetar el teléfono durante la carga.",
+      "longDescription": "El Power Bank Vorus 10.000 mAh es una batería externa práctica y potente, diseñada para cargar el móvil, tablet u otros dispositivos electrónicos estés donde estés. Su capacidad ofrece energía suficiente para realizar varias cargas, dependiendo del modelo del dispositivo y del uso. Además, permite cargar mediante cable y también de forma inalámbrica en móviles compatibles con esta función. El sistema de ventosas permite fijar el móvil al Power Bank durante la carga, creando una experiencia cómoda y compacta, como si ambos formaran un solo dispositivo.",
       "highlightPhrase": "Carga tu móvil estés donde estés, con cable o de forma inalámbrica.",
       "ctaButton": "Solicitar información / Comprar ahora",
       "category": "Electrónica",
@@ -36,7 +36,7 @@
       "images": [
         {
           "url": "/images/powerbank-principal-cable.webp",
-          "alt": "Power Bank PAYNE con cable múltiple y logo iluminado",
+          "alt": "Power Bank Vorus con cable múltiple y logo iluminado",
           "type": "principal"
         },
         {
@@ -46,7 +46,7 @@
         },
         {
           "url": "/images/powerbank-vista-frontal.webp",
-          "alt": "Vista frontal del Power Bank con logo PAYNE",
+          "alt": "Vista frontal del Power Bank con logo Vorus",
           "type": "secundaria"
         },
         {
@@ -101,6 +101,12 @@
           "url": "/images/aspirador-accesorios.webp",
           "alt": "Accesorios y boquillas del aspirador soplador",
           "type": "secundaria"
+        }
+      ],
+      "videos": [
+        {
+          "url": "/videos/aspirador.mp4",
+          "title": "Aspirador y soplador 2 en 1 en funcionamiento"
         }
       ],
       "featured": false,
@@ -187,6 +193,12 @@
           "url": "/images/auriculares-deporte-gym.webp",
           "alt": "Mujer con auriculares en el gimnasio, uso deportivo",
           "type": "lifestyle"
+        }
+      ],
+      "videos": [
+        {
+          "url": "/videos/cascos.mp4",
+          "title": "Auriculares inalámbricos Bluetooth 5.3"
         }
       ],
       "featured": true,
@@ -378,6 +390,12 @@
           "type": "secundaria"
         }
       ],
+      "videos": [
+        {
+          "url": "/videos/sacacorchos.mp4",
+          "title": "Sacacorchos eléctrico abriendo una botella"
+        }
+      ],
       "featured": false,
       "createdAt": "2024-01-01T00:00:00.000Z",
       "updatedAt": "2024-01-01T00:00:00.000Z"
@@ -502,7 +520,7 @@
     "otherZonesNote": "Para otros destinos, consultar condiciones antes de confirmar el pedido."
   },
   "legalInfo": {
-    "baseLegalTerms": "Suministros Payne",
+    "baseLegalTerms": "Vorus",
     "note": "Se aplicarán las variantes necesarias en función del dominio, nombre comercial, productos publicados, condiciones de compra, métodos de pago, envíos, garantías, devoluciones, política de privacidad y política de cookies."
   }
 }

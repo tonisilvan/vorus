@@ -40,3 +40,7 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# local video originals (deployed copies live in public/videos)
+/videos/
+WhatsApp*.mp4

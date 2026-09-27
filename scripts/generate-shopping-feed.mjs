@@ -1,7 +1,7 @@
 import products from '../src/data/products.json' with { type: 'json' };
 import { writeFileSync } from 'fs';
 
-const baseUrl = 'https://payne-products.vercel.app';
+const baseUrl = 'https://vorus.es';
 
 // Google Product Categories (mapeo de categorías)
 const googleCategories = {
@@ -37,7 +37,7 @@ function generateProductXml(product) {
       <g:condition>new</g:condition>
       <g:availability>${variant.stock > 0 ? 'in stock' : 'out of stock'}</g:availability>
       <g:price>${variant.price.toFixed(2)} EUR</g:price>
-      <g:brand>PAYNE</g:brand>
+      <g:brand>Vorus</g:brand>
       <g:gtin>${gtin}</g:gtin>
       <g:mpn>${escapeXml(variant.reference)}</g:mpn>
       <g:product_category>${escapeXml(googleCategory)}</g:product_category>
@@ -56,7 +56,7 @@ function generateFeed() {
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0" xmlns:g="http://base.google.com/ns/1.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>PAYNE Products Feed</title>
+    <title>Vorus Feed</title>
     <link>${baseUrl}</link>
     <description>Productos tecnológicos y accesorios de alta calidad</description>
     <atom:link href="${baseUrl}/google-shopping-feed.xml" rel="self" type="application/rss+xml"/>

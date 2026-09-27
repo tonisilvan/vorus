@@ -1,26 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0" xmlns:g="http://base.google.com/ns/1.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>PAYNE Products Feed</title>
-    <link>https://payne-products.vercel.app</link>
+    <title>Vorus Feed</title>
+    <link>https://vorus.es</link>
     <description>Productos tecnológicos y accesorios de alta calidad</description>
-    <atom:link href="https://payne-products.vercel.app/google-shopping-feed.xml" rel="self" type="application/rss+xml"/>
-    <lastBuildDate>2026-05-23T19:03:29.972Z</lastBuildDate>
+    <atom:link href="https://vorus.es/google-shopping-feed.xml" rel="self" type="application/rss+xml"/>
+    <lastBuildDate>2026-09-27T11:33:02.295Z</lastBuildDate>
     <language>es</language>
     <g:country>ES</g:country>
     <g:currency>EUR</g:currency>
     
 
     <item>
-      <g:id>powerbank-payne-10000</g:id>
-      <g:title>Power Bank PAYNE 10.000 mAh con carga múltiple, carga inalámbrica y sistema de ventosas</g:title>
-      <g:description>Batería externa portátil PAYNE de 10.000 mAh, ligera, compacta y cómoda de transportar. Permite cargar varios dispositivos, incluye carga inalámbrica para móviles compatibles y cuenta con sistema de ventosas para sujetar el teléfono durante la carga.</g:description>
-      <g:link>https://payne-products.vercel.app/producto/power-bank-payne-10000-mah</g:link>
-      <g:image_link>https://payne-products.vercel.app/images/powerbank-principal-cable.webp</g:image_link>
+      <g:id>powerbank-vorus-10000</g:id>
+      <g:title>Power Bank Vorus 10.000 mAh con carga múltiple, carga inalámbrica y sistema de ventosas</g:title>
+      <g:description>Batería externa portátil Vorus de 10.000 mAh, ligera, compacta y cómoda de transportar. Permite cargar varios dispositivos, incluye carga inalámbrica para móviles compatibles y cuenta con sistema de ventosas para sujetar el teléfono durante la carga.</g:description>
+      <g:link>https://vorus.es/producto/power-bank-vorus-10000-mah</g:link>
+      <g:image_link>https://vorus.es/images/powerbank-principal-cable.webp</g:image_link>
       <g:condition>new</g:condition>
       <g:availability>in stock</g:availability>
       <g:price>27.83 EUR</g:price>
-      <g:brand>PAYNE</g:brand>
+      <g:brand>Vorus</g:brand>
       <g:gtin>0000099990015</g:gtin>
       <g:mpn>99-990015</g:mpn>
       <g:product_category>Electronics</g:product_category>
@@ -35,12 +35,12 @@
       <g:id>aspirador-soplador-2en1</g:id>
       <g:title>Aspirador y Soplador de Aire 2 en 1 Recargable para Limpieza de Ordenadores</g:title>
       <g:description>Aspirador y soplador de aire portátil 2 en 1, potente y recargable, ideal para limpiar ordenadores, teclados, equipos electrónicos, vehículos y zonas de difícil acceso. Cuenta con 3 velocidades de aire y carga rápida en aproximadamente 2 horas.</g:description>
-      <g:link>https://payne-products.vercel.app/producto/aspirador-soplador-2-en-1-recargable</g:link>
-      <g:image_link>https://payne-products.vercel.app/images/aspirador-principal.webp</g:image_link>
+      <g:link>https://vorus.es/producto/aspirador-soplador-2-en-1-recargable</g:link>
+      <g:image_link>https://vorus.es/images/aspirador-principal.webp</g:image_link>
       <g:condition>new</g:condition>
       <g:availability>in stock</g:availability>
       <g:price>53.49 EUR</g:price>
-      <g:brand>PAYNE</g:brand>
+      <g:brand>Vorus</g:brand>
       <g:gtin>0000099990006</g:gtin>
       <g:mpn>99-990006</g:mpn>
       <g:product_category>Electronics</g:product_category>
@@ -55,12 +55,12 @@
       <g:id>auriculares-bluetooth-53</g:id>
       <g:title>Auriculares Inalámbricos Bluetooth 5.3 con Micrófono HD, Sonido HiFi y Estuche con Pantalla LED</g:title>
       <g:description>Auriculares inalámbricos Bluetooth 5.3 con micrófono HD, sonido HiFi estéreo, control táctil y estuche de carga con pantalla LED. Diseñados para música, llamadas, deporte y uso diario.</g:description>
-      <g:link>https://payne-products.vercel.app/producto/auriculares-inalambricos-bluetooth-5-3</g:link>
-      <g:image_link>https://payne-products.vercel.app/images/auriculares-principal.webp</g:image_link>
+      <g:link>https://vorus.es/producto/auriculares-inalambricos-bluetooth-5-3</g:link>
+      <g:image_link>https://vorus.es/images/auriculares-principal.webp</g:image_link>
       <g:condition>new</g:condition>
       <g:availability>in stock</g:availability>
       <g:price>28.19 EUR</g:price>
-      <g:brand>PAYNE</g:brand>
+      <g:brand>Vorus</g:brand>
       <g:gtin>0000099990006</g:gtin>
       <g:mpn>99.990006</g:mpn>
       <g:product_category>Electronics</g:product_category>
@@ -75,12 +75,12 @@
       <g:id>estacion-carga-inalambrica-4en1</g:id>
       <g:title>Estación de Carga Inalámbrica 4 en 1</g:title>
       <g:description>Estación de carga inalámbrica 4 en 1 compatible con móviles, auriculares y relojes inteligentes. Incluye soporte ajustable, chip inteligente con protecciones de seguridad y luz ambiental.</g:description>
-      <g:link>https://payne-products.vercel.app/producto/estacion-carga-inalambrica-4-en-1</g:link>
-      <g:image_link>https://payne-products.vercel.app/images/cargador-principal.webp</g:image_link>
+      <g:link>https://vorus.es/producto/estacion-carga-inalambrica-4-en-1</g:link>
+      <g:image_link>https://vorus.es/images/cargador-principal.webp</g:image_link>
       <g:condition>new</g:condition>
       <g:availability>in stock</g:availability>
       <g:price>42.04 EUR</g:price>
-      <g:brand>PAYNE</g:brand>
+      <g:brand>Vorus</g:brand>
       <g:gtin>0000099990004</g:gtin>
       <g:mpn>99-990004</g:mpn>
       <g:product_category>Electronics</g:product_category>
@@ -95,12 +95,12 @@
       <g:id>sacacorchos-electrico-recargable</g:id>
       <g:title>Sacacorchos Eléctrico Recargable para Vino con Base y Cortacápsulas</g:title>
       <g:description>Sacacorchos eléctrico recargable para vino, cómodo, elegante y fácil de usar. Incluye base de apoyo, cable de carga y cortacápsulas para quitar el precinto de la botella antes de abrirla.</g:description>
-      <g:link>https://payne-products.vercel.app/producto/sacacorchos-electrico-recargable-vino</g:link>
-      <g:image_link>https://payne-products.vercel.app/images/sacacorchos-principal.webp</g:image_link>
+      <g:link>https://vorus.es/producto/sacacorchos-electrico-recargable-vino</g:link>
+      <g:image_link>https://vorus.es/images/sacacorchos-principal.webp</g:image_link>
       <g:condition>new</g:condition>
       <g:availability>in stock</g:availability>
       <g:price>26.50 EUR</g:price>
-      <g:brand>PAYNE</g:brand>
+      <g:brand>Vorus</g:brand>
       <g:gtin>0000099990003</g:gtin>
       <g:mpn>99-990003</g:mpn>
       <g:product_category>Home &amp; Garden</g:product_category>
@@ -115,12 +115,12 @@
       <g:id>juego-te-ceramica-bandeja</g:id>
       <g:title>Juego de Té de Cerámica de 6 Piezas con Bandeja de Madera</g:title>
       <g:description>Juego de té de cerámica compuesto por una tetera, cuatro tazas y una bandeja de madera. Disponible en dos acabados, blanco o negro, con diseño decorativo elegante y asa tipo bambú para un agarre cómodo y seguro.</g:description>
-      <g:link>https://payne-products.vercel.app/producto/juego-te-ceramica-6-piezas-bandeja-madera</g:link>
-      <g:image_link>https://payne-products.vercel.app/images/te-principal.webp</g:image_link>
+      <g:link>https://vorus.es/producto/juego-te-ceramica-6-piezas-bandeja-madera</g:link>
+      <g:image_link>https://vorus.es/images/te-principal.webp</g:image_link>
       <g:condition>new</g:condition>
       <g:availability>in stock</g:availability>
       <g:price>64.49 EUR</g:price>
-      <g:brand>PAYNE</g:brand>
+      <g:brand>Vorus</g:brand>
       <g:gtin>0000099990016</g:gtin>
       <g:mpn>99-990016</g:mpn>
       <g:product_category>Home &amp; Garden</g:product_category>

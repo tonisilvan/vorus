@@ -3,7 +3,7 @@ import { notFound } from 'next/navigation';
 import { products } from '@/data/products';
 import { ProductDetail } from './ProductDetail';
 
-const baseUrl = 'https://payne-products.vercel.app';
+const baseUrl = 'https://vorus.es';
 
 interface Props {
   params: Promise<{ slug: string }>;
@@ -26,7 +26,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return {
     title: product.name,
     description: product.shortDescription,
-    keywords: [product.name, product.category, 'PAYNE', 'comprar', ...product.features.slice(0, 3)],
+    keywords: [product.name, product.category, 'Vorus', 'comprar', ...product.features.slice(0, 3)],
     alternates: {
       canonical: `/producto/${product.slug}`,
     },
@@ -36,7 +36,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       url: `/producto/${product.slug}`,
       title: product.name,
       description: product.shortDescription,
-      siteName: 'PAYNE Products',
+      siteName: 'Vorus',
       images: product.images.map(img => ({
         url: `${baseUrl}${img.url}`,
         width: 1000,
@@ -67,7 +67,7 @@ export default async function ProductDetailPage({ params }: Props) {
     image: product.images.map(img => `${baseUrl}${img.url}`),
     brand: {
       '@type': 'Brand',
-      name: 'PAYNE',
+      name: 'Vorus',
     },
     offers: product.variants.map(variant => ({
       '@type': 'Offer',
@@ -79,7 +79,7 @@ export default async function ProductDetailPage({ params }: Props) {
         : 'https://schema.org/OutOfStock',
       seller: {
         '@type': 'Organization',
-        name: 'Suministros Payne',
+        name: 'Vorus',
       },
       shippingDetails: {
         '@type': 'OfferShippingDetails',

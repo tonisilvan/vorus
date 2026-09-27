@@ -6,7 +6,7 @@ import { Product } from '@/types/product';
 import { useCart } from '@/context/CartContext';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { ShoppingCart, ArrowLeft, ChevronLeft, ChevronRight, Check, Truck, Shield } from 'lucide-react';
+import { ShoppingCart, ArrowLeft, ChevronLeft, ChevronRight, Check, Truck, Shield, Play } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { analyticsEvents, isGAReady } from '@/lib/analytics';
@@ -47,6 +47,7 @@ export function ProductDetail({ product }: ProductDetailProps) {
   }, [product]);
 
   const variant = product.variants[selectedVariant];
+  const mainImage = product.images.find(img => img.type === 'principal') || product.images[0];
 
   return (
     <>
@@ -139,6 +140,29 @@ export function ProductDetail({ product }: ProductDetailProps) {
                       className="object-cover"
                     />
                   </button>
+                ))}
+              </div>
+            )}
+
+            {/* Product Videos */}
+            {product.videos && product.videos.length > 0 && (
+              <div className="space-y-3 pt-2">
+                <h2 className="text-lg font-semibold flex items-center gap-2">
+                  <Play className="h-5 w-5 text-primary" />
+                  Vídeo del producto
+                </h2>
+                {product.videos.map((video, i) => (
+                  <div key={i} className="rounded-2xl overflow-hidden bg-black shadow-lg">
+                    <video
+                      src={video.url}
+                      title={video.title || product.name}
+                      controls
+                      playsInline
+                      preload="metadata"
+                      poster={mainImage?.url}
+                      className="w-full aspect-video"
+                    />
+                  </div>
                 ))}
               </div>
             )}

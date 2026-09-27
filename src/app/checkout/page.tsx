@@ -90,7 +90,7 @@ export default function CheckoutPage() {
           confirmar el pedido y gestionar el pago.
         </p>
         <p className="text-sm text-muted-foreground">
-          Si tienes alguna duda, escríbenos a <a href="mailto:info@suministrospayne.com" className="underline text-primary">info@suministrospayne.com</a>
+          Si tienes alguna duda, escríbenos a <a href="mailto:info@vorus.es" className="underline text-primary">info@vorus.es</a>
         </p>
         <Link href="/">
           <Button className="mt-4">Volver a la tienda</Button>
