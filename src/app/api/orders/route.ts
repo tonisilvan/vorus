@@ -5,6 +5,8 @@ import {
   saveOrdersData,
   normalizeOrder,
 } from '@/lib/admin-store';
+import { getCurrentUser } from '@/lib/user-auth';
+import { sendEmail, orderConfirmationEmailHtml } from '@/lib/email';
 
 export const dynamic = 'force-dynamic';
 
@@ -24,9 +26,15 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    const user = await getCurrentUser();
+    if (user) order.userId = user.id;
+
     const data = await getOrdersData();
     data.orders.unshift(order);
     await saveOrdersData(data);
+
+    const confirmation = orderConfirmationEmailHtml(order);
+    sendEmail(order.customer.email, confirmation.subject, confirmation.html).catch(() => {});
 
     return NextResponse.json({ order }, { status: 201 });
   } catch (e) {

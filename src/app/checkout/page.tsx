@@ -4,8 +4,9 @@ import { useState, useEffect } from 'react';
 import { useCart } from '@/context/CartContext';
 import { calculateCartTotal } from '@/lib/cart';
 import { Button } from '@/components/ui/button';
-import { ArrowLeft, Lock, Truck, ShieldCheck } from 'lucide-react';
+import { ArrowLeft, Lock, Truck, ShieldCheck, UserCheck } from 'lucide-react';
 import { Order } from '@/types/order';
+import { PublicUser } from '@/types/user';
 import Image from 'next/image';
 import Link from 'next/link';
 import { AddressAutocomplete } from '@/components/AddressAutocomplete';
@@ -52,6 +53,26 @@ export default function CheckoutPage() {
   const [order, setOrder] = useState<Order | null>(null);
   const [submitting, setSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState('');
+  const [sessionUser, setSessionUser] = useState<PublicUser | null>(null);
+
+  // Si hay sesión iniciada, prefijar nombre/apellidos/email
+  useEffect(() => {
+    fetch('/api/auth/me', { cache: 'no-store' })
+      .then(r => r.json())
+      .then(data => {
+        const u = data?.user as PublicUser | null;
+        if (u) {
+          setSessionUser(u);
+          setFormData(prev => ({
+            ...prev,
+            nombre: prev.nombre || u.nombre,
+            apellidos: prev.apellidos || u.apellidos,
+            email: prev.email || u.email,
+          }));
+        }
+      })
+      .catch(() => {});
+  }, []);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     setFormData(prev => ({ ...prev, [e.target.name]: e.target.value }));
@@ -310,18 +331,39 @@ export default function CheckoutPage() {
               </div>
             </div>
 
-            {/* Registro (desactivado) */}
-            <div className="bg-zinc-50 dark:bg-zinc-800/50 border rounded-xl p-6 space-y-3 opacity-60">
-              <div className="flex items-center justify-between">
-                <h2 className="text-lg font-semibold">Crear cuenta (próximamente)</h2>
-                <span className="text-xs bg-zinc-200 dark:bg-zinc-700 px-2 py-1 rounded-full">Desactivado</span>
-              </div>
-              <p className="text-sm text-muted-foreground">
-                Pronto podrás crear una cuenta para guardar tus datos, consultar el historial de pedidos y repetir compras más rápido.
-              </p>
-              <Button type="button" disabled className="opacity-50 cursor-not-allowed">
-                Registrarse
-              </Button>
+            {/* Cuenta de cliente */}
+            <div className="commerce-panel p-6">
+              {sessionUser ? (
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-full bg-green-100 dark:bg-green-900/30 flex items-center justify-center flex-shrink-0">
+                    <UserCheck className="h-5 w-5 text-green-600" />
+                  </div>
+                  <div>
+                    <p className="text-sm font-medium">
+                      Comprando como {sessionUser.nombre} {sessionUser.apellidos}
+                    </p>
+                    <p className="text-xs text-muted-foreground">
+                      El pedido quedará vinculado a tu cuenta y podrás seguirlo desde{' '}
+                      <Link href="/mi-cuenta" className="underline text-primary">Mi cuenta</Link>.
+                    </p>
+                  </div>
+                </div>
+              ) : (
+                <div className="space-y-2">
+                  <h2 className="text-lg font-semibold">¿Tienes cuenta en Vorus?</h2>
+                  <p className="text-sm text-muted-foreground">
+                    <Link href="/login?next=/checkout" className="underline text-primary font-medium">
+                      Inicia sesión
+                    </Link>{' '}
+                    o{' '}
+                    <Link href="/registro?next=/checkout" className="underline text-primary font-medium">
+                      crea una cuenta
+                    </Link>{' '}
+                    para consultar tus pedidos y recibir avisos por email cuando cambien de estado.
+                    También puedes comprar sin cuenta.
+                  </p>
+                </div>
+              )}
             </div>
 
             {submitError && (

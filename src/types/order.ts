@@ -47,6 +47,8 @@ export const ORDER_STATUS_LABELS: Record<OrderStatus, string> = {
 
 export interface Order {
   id: string;
+  /** Id del usuario registrado, si el pedido se hizo con sesión iniciada */
+  userId?: string;
   customer: OrderCustomer;
   shipping: OrderShipping;
   items: OrderItem[];

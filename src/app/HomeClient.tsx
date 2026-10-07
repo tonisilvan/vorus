@@ -7,6 +7,7 @@ import { ArrowRight, Menu, X, Headphones, ShieldCheck, Truck, Zap } from 'lucide
 import { ProductCarousel } from '@/components/ProductCarousel';
 import { Product } from '@/types/product';
 import { useCart } from '@/context/CartContext';
+import { AuthMenu } from '@/components/AuthMenu';
 
 const baseUrl = 'https://vorus.es';
 
@@ -33,6 +34,7 @@ export default function HomeClient({ products }: { products: Product[] }) {
           </nav>
           <div className="header-actions">
           <button className="mobile-menu-toggle" onClick={() => setMobileMenuOpen(!mobileMenuOpen)} aria-expanded={mobileMenuOpen} aria-label={mobileMenuOpen ? 'Cerrar menú' : 'Abrir menú'}>{mobileMenuOpen ? <X size={19} /> : <Menu size={19} />}</button>
+          <AuthMenu />
           <button className="cart-trigger" onClick={openCart} aria-label={`Abrir carrito, ${cartCount} productos`}>
             <span>Carrito</span><span className="cart-count">{cartCount}</span>
           </button>

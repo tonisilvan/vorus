@@ -5,6 +5,7 @@ import {
   saveOrdersData,
   isValidOrderStatus,
 } from '@/lib/admin-store';
+import { sendEmail, orderStatusEmailHtml } from '@/lib/email';
 
 export const dynamic = 'force-dynamic';
 
@@ -33,6 +34,10 @@ export async function PATCH(request: NextRequest, { params }: Params) {
     order.status = body.status;
     order.updatedAt = new Date().toISOString();
     await saveOrdersData(data);
+
+    const notice = orderStatusEmailHtml(order);
+    sendEmail(order.customer.email, notice.subject, notice.html).catch(() => {});
+
     return NextResponse.json({ order });
   } catch (e) {
     console.error('Error actualizando pedido:', e);

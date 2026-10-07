@@ -4,12 +4,15 @@ import path from 'path';
 import { del, list, put } from '@vercel/blob';
 import { Product, ProductImage, ProductVariant, ProductVideo } from '@/types/product';
 import { Order, OrderStatus, ORDER_STATUSES } from '@/types/order';
+import { User } from '@/types/user';
 import bundledData from '@/data/products.json';
 
 const PRODUCTS_PATH = path.join(process.cwd(), 'src', 'data', 'products.json');
 const ORDERS_PATH = path.join(process.cwd(), 'src', 'data', 'orders.json');
+const USERS_PATH = path.join(process.cwd(), 'src', 'data', 'users.json');
 const PRODUCTS_BLOB_PREFIX = 'catalog/products-';
 const ORDERS_BLOB_PREFIX = 'orders/orders-';
+const USERS_BLOB_PREFIX = 'users/users-';
 
 export interface ProductsData {
   products: Product[];
@@ -109,6 +112,20 @@ export async function getOrdersData(): Promise<OrdersData> {
 
 export async function saveOrdersData(data: OrdersData): Promise<void> {
   return writeVersionedJson(ORDERS_BLOB_PREFIX, ORDERS_PATH, data);
+}
+
+export interface UsersData {
+  users: User[];
+}
+
+const EMPTY_USERS: UsersData = { users: [] };
+
+export async function getUsersData(): Promise<UsersData> {
+  return readVersionedJson(USERS_BLOB_PREFIX, USERS_PATH, EMPTY_USERS);
+}
+
+export async function saveUsersData(data: UsersData): Promise<void> {
+  return writeVersionedJson(USERS_BLOB_PREFIX, USERS_PATH, data);
 }
 
 export function slugify(text: string): string {
