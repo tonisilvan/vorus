@@ -80,6 +80,21 @@ Vercel y conéctalo al proyecto — la variable `BLOB_READ_WRITE_TOKEN` se confi
 automáticamente). En desarrollo local, sin token, se escribe directamente en
 `src/data/products.json`.
 
+### Pedidos:
+
+El checkout registra cada pedido vía `POST /api/orders`. Los importes se
+recalculan siempre en el servidor desde el catálogo (el precio del cliente se
+ignora). Los pedidos se persisten en **Vercel Blob** (`orders/`) en producción y
+en `src/data/orders.json` en desarrollo.
+
+Desde `/admin` → pestaña **Pedidos** se listan los pedidos con detalle
+(productos, cliente, dirección) y se puede cambiar su estado
+(pendiente → en proceso → enviado → completado / cancelado) o eliminarlos.
+
+Al confirmar la compra, el cliente puede abrir WhatsApp con el pedido
+preformateado hacia el número configurado en `WHATSAPP_NUMBER` dentro de
+`src/app/checkout/page.tsx` y `src/components/admin/OrdersSection.tsx`.
+
 También puedes editar `src/data/products.json` a mano como catálogo inicial/seed:
 
 ```typescript

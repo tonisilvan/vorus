@@ -4,11 +4,14 @@ import { useState, useEffect } from 'react';
 import { useCart } from '@/context/CartContext';
 import { calculateCartTotal } from '@/lib/cart';
 import { Button } from '@/components/ui/button';
-import { ArrowLeft, Lock, Truck, ShieldCheck } from 'lucide-react';
+import { ArrowLeft, Lock, Truck, ShieldCheck, MessageCircle } from 'lucide-react';
+import { Order } from '@/types/order';
 import Image from 'next/image';
 import Link from 'next/link';
 import { AddressAutocomplete } from '@/components/AddressAutocomplete';
 import { analyticsEvents, isGAReady } from '@/lib/analytics';
+
+const WHATSAPP_NUMBER = '34661320031';
 
 interface ShippingData {
   nombre: string;
@@ -48,22 +51,82 @@ export default function CheckoutPage() {
   });
 
   const [submitted, setSubmitted] = useState(false);
+  const [order, setOrder] = useState<Order | null>(null);
+  const [submitting, setSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState('');
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     setFormData(prev => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const whatsappUrl = (o: Order) => {
+    const lines = [
+      `Nuevo pedido ${o.id.slice(0, 8)}`,
+      '',
+      ...o.items.map(i => `- ${i.name} x${i.quantity} — ${(i.price * i.quantity).toFixed(2)} €`),
+      `Total: ${o.total.toFixed(2)} €`,
+      '',
+      `Cliente: ${o.customer.nombre} ${o.customer.apellidos}`,
+      `Email: ${o.customer.email}`,
+      `Teléfono: ${o.customer.telefono}`,
+      `Dirección: ${o.shipping.direccion}, ${o.shipping.codigoPostal} ${o.shipping.ciudad} (${o.shipping.provincia}), ${o.shipping.pais}`,
+      ...(o.shipping.notas ? [`Notas: ${o.shipping.notas}`] : []),
+    ];
+    return `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(lines.join('\n'))}`;
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
-    // Analytics event for purchase
-    if (isGAReady() && items.length > 0) {
-      const orderId = `ORDER_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
-      analyticsEvents.purchase(orderId, cart.total, items.length);
+    if (submitting) return;
+    setSubmitting(true);
+    setSubmitError('');
+
+    try {
+      const res = await fetch('/api/orders', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          customer: {
+            nombre: formData.nombre,
+            apellidos: formData.apellidos,
+            email: formData.email,
+            telefono: formData.telefono,
+          },
+          shipping: {
+            direccion: formData.direccion,
+            codigoPostal: formData.codigoPostal,
+            ciudad: formData.ciudad,
+            provincia: formData.provincia,
+            pais: formData.pais,
+            notas: formData.notas,
+          },
+          items: items.map(item => ({
+            productId: item.product.id,
+            quantity: item.quantity,
+          })),
+        }),
+      });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) throw new Error(data.error || 'No se pudo registrar el pedido');
+
+      const created: Order = data.order;
+
+      // Analytics event for purchase
+      if (isGAReady() && items.length > 0) {
+        analyticsEvents.purchase(created.id, cart.total, items.length);
+      }
+
+      // Abrir WhatsApp con el pedido ya formateado (gesto de usuario => no bloqueado)
+      window.open(whatsappUrl(created), '_blank');
+
+      setOrder(created);
+      emptyCart();
+      setSubmitted(true);
+    } catch (err) {
+      setSubmitError(err instanceof Error ? err.message : 'No se pudo registrar el pedido');
+    } finally {
+      setSubmitting(false);
     }
-    
-    emptyCart();
-    setSubmitted(true);
   };
 
   if (items.length === 0 && !submitted) {
@@ -85,15 +148,31 @@ export default function CheckoutPage() {
           <ShieldCheck className="h-8 w-8 text-green-600" />
         </div>
         <h1 className="text-2xl font-bold">¡Pedido recibido!</h1>
+        {order && (
+          <p className="text-sm text-muted-foreground">
+            Referencia: <strong>#{order.id.slice(0, 8)}</strong>
+          </p>
+        )}
         <p className="text-muted-foreground">
-          Hemos recibido tu solicitud. Nos pondremos en contacto contigo a través de <strong>{formData.email}</strong> para 
+          Hemos registrado tu solicitud. Nos pondremos en contacto contigo a través de <strong>{formData.email}</strong> para 
           confirmar el pedido y gestionar el pago.
         </p>
+        {order && (
+          <a
+            href={whatsappUrl(order)}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 h-12 px-6 rounded-lg bg-[#25D366] hover:bg-[#1eb856] text-white font-semibold transition-colors"
+          >
+            <MessageCircle className="h-5 w-5" />
+            Enviar pedido por WhatsApp
+          </a>
+        )}
         <p className="text-sm text-muted-foreground">
           Si tienes alguna duda, escríbenos a <a href="mailto:info@vorus.es" className="underline text-primary">info@vorus.es</a>
         </p>
         <Link href="/">
-          <Button className="mt-4">Volver a la tienda</Button>
+          <Button className="mt-4" variant="outline">Volver a la tienda</Button>
         </Link>
       </div>
     );
@@ -277,11 +356,15 @@ export default function CheckoutPage() {
               </Button>
             </div>
 
+            {submitError && (
+              <p className="text-sm text-red-600 bg-red-50 rounded-lg px-4 py-3">{submitError}</p>
+            )}
+
             {/* Submit en móvil */}
             <div className="lg:hidden">
-              <Button type="submit" className="w-full h-14 text-lg font-semibold gap-2">
+              <Button type="submit" className="w-full h-14 text-lg font-semibold gap-2" disabled={submitting}>
                 <Lock className="h-5 w-5" />
-                Confirmar Pedido
+                {submitting ? 'Enviando pedido...' : 'Confirmar Pedido'}
               </Button>
             </div>
           </form>
@@ -334,9 +417,9 @@ export default function CheckoutPage() {
               </div>
             </div>
 
-            <Button type="submit" form="checkout-form" className="hidden lg:flex w-full h-12 text-base font-semibold gap-2">
+            <Button type="submit" form="checkout-form" className="hidden lg:flex w-full h-12 text-base font-semibold gap-2" disabled={submitting}>
               <Lock className="h-4 w-4" />
-              Confirmar Pedido
+              {submitting ? 'Enviando pedido...' : 'Confirmar Pedido'}
             </Button>
 
             <div className="flex items-center gap-2 text-xs text-muted-foreground justify-center pt-2">

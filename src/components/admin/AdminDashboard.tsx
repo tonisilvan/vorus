@@ -8,6 +8,7 @@ import { Product } from '@/types/product';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { ProductForm } from './ProductForm';
+import { OrdersSection } from './OrdersSection';
 import {
   Plus,
   Pencil,
@@ -16,6 +17,8 @@ import {
   ExternalLink,
   RefreshCw,
   Play,
+  Package,
+  ShoppingBag,
 } from 'lucide-react';
 
 interface AdminDashboardProps {
@@ -32,6 +35,7 @@ export function AdminDashboard({ initialProducts }: AdminDashboardProps) {
   >(null);
   const [confirmDelete, setConfirmDelete] = useState<Product | null>(null);
   const [deleting, setDeleting] = useState(false);
+  const [tab, setTab] = useState<'productos' | 'pedidos'>('productos');
 
   const handleReload = async () => {
     setLoading(true);
@@ -116,6 +120,36 @@ export function AdminDashboard({ initialProducts }: AdminDashboardProps) {
       </header>
 
       <main className="max-w-7xl mx-auto px-4 md:px-8 py-8 space-y-6">
+        {/* Pestañas */}
+        <div className="flex gap-1 border-b">
+          <button
+            onClick={() => setTab('productos')}
+            className={`flex items-center gap-2 px-4 py-2.5 text-sm font-medium border-b-2 -mb-px transition-colors ${
+              tab === 'productos'
+                ? 'border-primary text-primary'
+                : 'border-transparent text-muted-foreground hover:text-foreground'
+            }`}
+          >
+            <Package className="h-4 w-4" />
+            Productos
+          </button>
+          <button
+            onClick={() => setTab('pedidos')}
+            className={`flex items-center gap-2 px-4 py-2.5 text-sm font-medium border-b-2 -mb-px transition-colors ${
+              tab === 'pedidos'
+                ? 'border-primary text-primary'
+                : 'border-transparent text-muted-foreground hover:text-foreground'
+            }`}
+          >
+            <ShoppingBag className="h-4 w-4" />
+            Pedidos
+          </button>
+        </div>
+
+        {tab === 'pedidos' && <OrdersSection />}
+
+        {tab === 'productos' && (
+        <>
         <div className="flex items-center justify-between gap-4 flex-wrap">
           <div>
             <h2 className="text-2xl font-bold">Productos</h2>
@@ -271,6 +305,8 @@ export function AdminDashboard({ initialProducts }: AdminDashboardProps) {
           Los cambios se guardan en el catálogo (Vercel Blob en producción,{' '}
           <code>src/data/products.json</code> en desarrollo) y se reflejan en la tienda al instante.
         </p>
+        </>
+        )}
       </main>
 
       {/* Modal formulario */}
