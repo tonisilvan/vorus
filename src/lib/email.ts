@@ -2,6 +2,7 @@ import { Order, ORDER_STATUS_LABELS } from '@/types/order';
 import { User } from '@/types/user';
 
 const FROM = process.env.EMAIL_FROM || 'Vorus <pedidos@vorus.es>';
+const REPLY_TO = process.env.EMAIL_REPLY_TO || 'info@vorus.es';
 const SITE_URL = process.env.SITE_URL || 'https://vorus.es';
 
 function resendConfigured(): boolean {
@@ -21,7 +22,7 @@ export async function sendEmail(to: string, subject: string, html: string): Prom
   try {
     const { Resend } = await import('resend');
     const resend = new Resend(process.env.RESEND_API_KEY);
-    const { error } = await resend.emails.send({ from: FROM, to, subject, html });
+    const { error } = await resend.emails.send({ from: FROM, to, subject, html, replyTo: REPLY_TO });
     if (error) console.error('[email] Error de Resend:', error);
   } catch (e) {
     console.error('[email] Fallo enviando email:', e);
