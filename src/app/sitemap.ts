@@ -1,8 +1,11 @@
 import { MetadataRoute } from 'next';
-import { products } from '@/data/products';
+import { getProductsData } from '@/lib/admin-store';
 
-export default function sitemap(): MetadataRoute.Sitemap {
+export const dynamic = 'force-dynamic';
+
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = 'https://vorus.es';
+  const { products } = await getProductsData();
 
   const productUrls = products.map((product) => ({
     url: `${baseUrl}/producto/${product.slug}`,

@@ -268,8 +268,8 @@ export function AdminDashboard({ initialProducts }: AdminDashboardProps) {
         </div>
 
         <p className="text-xs text-muted-foreground">
-          Los cambios se guardan en <code>src/data/products.json</code>. En desarrollo se reflejan
-          al recargar; en producción requieren un nuevo despliegue.
+          Los cambios se guardan en el catálogo (Vercel Blob en producción,{' '}
+          <code>src/data/products.json</code> en desarrollo) y se reflejan en la tienda al instante.
         </p>
       </main>
 

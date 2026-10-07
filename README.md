@@ -74,7 +74,13 @@ El proyecto incluye 6 productos de ejemplo que puedes fácilmente reemplazar con
 
 ### Añadir tus productos:
 
-Edita `src/data/products.ts` para añadir tus productos:
+Usa el panel de administración en `/admin` (requiere `ADMIN_PASSWORD`). Los cambios
+se guardan en **Vercel Blob** en producción (crea un Blob store en el dashboard de
+Vercel y conéctalo al proyecto — la variable `BLOB_READ_WRITE_TOKEN` se configura
+automáticamente). En desarrollo local, sin token, se escribe directamente en
+`src/data/products.json`.
+
+También puedes editar `src/data/products.json` a mano como catálogo inicial/seed:
 
 ```typescript
 {

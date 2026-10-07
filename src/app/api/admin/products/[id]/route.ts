@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { isAdminAuthenticated } from '@/lib/admin-auth';
-import { normalizeProduct, readProductsFile, writeProductsFile } from '@/lib/admin-store';
+import { normalizeProduct, getProductsData, saveProductsData } from '@/lib/admin-store';
 
 type Params = { params: Promise<{ id: string }> };
 
@@ -11,7 +11,7 @@ export async function PUT(request: NextRequest, { params }: Params) {
 
   try {
     const { id } = await params;
-    const data = readProductsFile();
+    const data = await getProductsData();
     const index = data.products.findIndex(p => p.id === id);
     if (index === -1) {
       return NextResponse.json({ error: 'Producto no encontrado' }, { status: 404 });
@@ -34,9 +34,10 @@ export async function PUT(request: NextRequest, { params }: Params) {
     }
 
     data.products[index] = product;
-    writeProductsFile(data);
+    await saveProductsData(data);
     return NextResponse.json({ product });
-  } catch {
+  } catch (e) {
+    console.error('Error actualizando producto:', e);
     return NextResponse.json(
       { error: 'No se pudo actualizar el producto' },
       { status: 500 }
@@ -51,16 +52,17 @@ export async function DELETE(request: NextRequest, { params }: Params) {
 
   try {
     const { id } = await params;
-    const data = readProductsFile();
+    const data = await getProductsData();
     const exists = data.products.some(p => p.id === id);
     if (!exists) {
       return NextResponse.json({ error: 'Producto no encontrado' }, { status: 404 });
     }
 
     data.products = data.products.filter(p => p.id !== id);
-    writeProductsFile(data);
+    await saveProductsData(data);
     return NextResponse.json({ ok: true });
-  } catch {
+  } catch (e) {
+    console.error('Error eliminando producto:', e);
     return NextResponse.json(
       { error: 'No se pudo eliminar el producto' },
       { status: 500 }

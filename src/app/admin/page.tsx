@@ -1,6 +1,6 @@
 import { Metadata } from 'next';
 import { isAdminAuthenticated } from '@/lib/admin-auth';
-import { readProductsFile } from '@/lib/admin-store';
+import { getProductsData } from '@/lib/admin-store';
 import { AdminLogin } from '@/components/admin/AdminLogin';
 import { AdminDashboard } from '@/components/admin/AdminDashboard';
 
@@ -18,6 +18,6 @@ export default async function AdminPage() {
     return <AdminLogin />;
   }
 
-  const { products } = readProductsFile();
+  const { products } = await getProductsData();
   return <AdminDashboard initialProducts={products} />;
 }

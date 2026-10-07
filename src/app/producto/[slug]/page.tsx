@@ -1,22 +1,19 @@
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
-import { products } from '@/data/products';
+import { getProductsData } from '@/lib/admin-store';
 import { ProductDetail } from './ProductDetail';
 
 const baseUrl = 'https://vorus.es';
+
+export const dynamic = 'force-dynamic';
 
 interface Props {
   params: Promise<{ slug: string }>;
 }
 
-export async function generateStaticParams() {
-  return products.map((product) => ({
-    slug: product.slug,
-  }));
-}
-
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
+  const { products } = await getProductsData();
   const product = products.find(p => p.slug === slug);
 
   if (!product) return { title: 'Producto no encontrado' };
@@ -55,6 +52,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function ProductDetailPage({ params }: Props) {
   const { slug } = await params;
+  const { products } = await getProductsData();
   const product = products.find(p => p.slug === slug);
 
   if (!product) notFound();

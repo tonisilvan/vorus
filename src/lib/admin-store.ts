@@ -1,9 +1,12 @@
 import { readFileSync, writeFileSync, renameSync } from 'fs';
 import { randomUUID } from 'crypto';
 import path from 'path';
+import { del, list, put } from '@vercel/blob';
 import { Product, ProductImage, ProductVariant, ProductVideo } from '@/types/product';
+import bundledData from '@/data/products.json';
 
 const DATA_PATH = path.join(process.cwd(), 'src', 'data', 'products.json');
+const BLOB_PREFIX = 'catalog/products-';
 
 export interface ProductsData {
   products: Product[];
@@ -11,13 +14,69 @@ export interface ProductsData {
   legalInfo?: Record<string, unknown>;
 }
 
-export function readProductsFile(): ProductsData {
-  return JSON.parse(readFileSync(DATA_PATH, 'utf8'));
+function hasBlobStore(): boolean {
+  return Boolean(process.env.BLOB_READ_WRITE_TOKEN);
 }
 
-export function writeProductsFile(data: ProductsData): void {
+/**
+ * Devuelve las versiones del catálogo ordenadas de más reciente a más antigua.
+ * `list()` va contra la API de control de Vercel Blob, sin caché de CDN.
+ */
+async function listCatalogVersions() {
+  const { blobs } = await list({ prefix: BLOB_PREFIX, limit: 100 });
+  return blobs.sort(
+    (a, b) => new Date(b.uploadedAt).getTime() - new Date(a.uploadedAt).getTime()
+  );
+}
+
+/**
+ * Lee el catálogo completo.
+ * - En Vercel (con BLOB_READ_WRITE_TOKEN): localiza la última versión del
+ *   catálogo via `list()` (control-plane) y la descarga.
+ * - Si el blob no existe todavía, siembra desde el JSON empaquetado.
+ * - En desarrollo local sin token: lee el fichero src/data/products.json.
+ */
+export async function getProductsData(): Promise<ProductsData> {
+  if (hasBlobStore()) {
+    // Cada escritura crea un blob nuevo con URL única: al no haberse pedido
+    // nunca, el CDN no puede servir una versión obsoleta.
+    const versions = await listCatalogVersions();
+    const latest = versions[0];
+    if (!latest) {
+      // Aún no hay ninguna versión: usar el JSON empaquetado como catálogo inicial.
+      return bundledData as unknown as ProductsData;
+    }
+    const res = await fetch(latest.url, { cache: 'no-store' });
+    if (!res.ok) {
+      throw new Error(`Error leyendo el catálogo: ${res.status} ${res.statusText}`);
+    }
+    return (await res.json()) as ProductsData;
+  }
+  return JSON.parse(readFileSync(DATA_PATH, 'utf8')) as ProductsData;
+}
+
+/**
+ * Persiste el catálogo completo.
+ * - En Vercel: sobrescribe el blob `products.json` (allowOverwrite).
+ * - En desarrollo local sin token: sobrescribe src/data/products.json.
+ */
+export async function saveProductsData(data: ProductsData): Promise<void> {
+  const content = `${JSON.stringify(data, null, 2)}\n`;
+  if (hasBlobStore()) {
+    const previous = (await listCatalogVersions()).map(b => b.pathname);
+    await put(`${BLOB_PREFIX}${Date.now()}.json`, content, {
+      access: 'public',
+      addRandomSuffix: true,
+      contentType: 'application/json',
+    });
+    // Limpieza best-effort de versiones antiguas una vez escrita la nueva.
+    if (previous.length > 0) {
+      await del(previous).catch(() => {});
+    }
+    return;
+  }
   const tmp = `${DATA_PATH}.tmp`;
-  writeFileSync(tmp, `${JSON.stringify(data, null, 2)}\n`, 'utf8');
+  writeFileSync(tmp, content, 'utf8');
   renameSync(tmp, DATA_PATH);
 }
 

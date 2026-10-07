@@ -1,5 +1,7 @@
 import { NextResponse } from 'next/server';
-import products from '@/data/products.json';
+import { getProductsData } from '@/lib/admin-store';
+
+export const dynamic = 'force-dynamic';
 
 const baseUrl = 'https://vorus.es';
 
@@ -52,6 +54,7 @@ function generateProductXml(product: any): string {
 
 export async function GET() {
   try {
+    const { products } = await getProductsData();
     const currentDate = new Date().toISOString();
     
     const xml = `<?xml version="1.0" encoding="UTF-8"?>
@@ -66,7 +69,7 @@ export async function GET() {
     <g:country>ES</g:country>
     <g:currency>EUR</g:currency>
     
-${products.products.map((product: any) => generateProductXml(product)).join('')}
+${products.map((product: any) => generateProductXml(product)).join('')}
     
   </channel>
 </rss>`;
