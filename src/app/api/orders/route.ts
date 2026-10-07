@@ -62,7 +62,7 @@ export async function POST(request: NextRequest) {
 
     if (!stripe) {
       const confirmation = orderConfirmationEmailHtml(order);
-      sendEmail(order.customer.email, confirmation.subject, confirmation.html).catch(() => {});
+      await sendEmail(order.customer.email, confirmation.subject, confirmation.html);
     }
 
     return NextResponse.json({ order, checkoutUrl }, { status: 201 });

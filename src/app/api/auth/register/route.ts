@@ -58,7 +58,7 @@ export async function POST(request: NextRequest) {
     });
 
     const welcome = welcomeEmailHtml(user);
-    sendEmail(email, welcome.subject, welcome.html).catch(() => {});
+    await sendEmail(email, welcome.subject, welcome.html);
 
     return res;
   } catch (e) {

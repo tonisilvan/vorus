@@ -36,7 +36,7 @@ export async function PATCH(request: NextRequest, { params }: Params) {
     await saveOrdersData(data);
 
     const notice = orderStatusEmailHtml(order);
-    sendEmail(order.customer.email, notice.subject, notice.html).catch(() => {});
+    await sendEmail(order.customer.email, notice.subject, notice.html);
 
     return NextResponse.json({ order });
   } catch (e) {

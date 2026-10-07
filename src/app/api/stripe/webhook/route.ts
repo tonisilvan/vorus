@@ -42,7 +42,7 @@ export async function POST(request: NextRequest) {
         await saveOrdersData(data);
 
         const confirmation = orderConfirmationEmailHtml(order);
-        sendEmail(order.customer.email, confirmation.subject, confirmation.html).catch(() => {});
+        await sendEmail(order.customer.email, confirmation.subject, confirmation.html);
       }
     }
   }
