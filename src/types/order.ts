@@ -57,6 +57,10 @@ export interface Order {
   shippingCost: number;
   total: number;
   status: OrderStatus;
+  /** Pago con Stripe: true cuando el webhook confirma el pago */
+  paid?: boolean;
+  paidAt?: string;
+  stripeSessionId?: string;
   createdAt: string;
   updatedAt: string;
 }

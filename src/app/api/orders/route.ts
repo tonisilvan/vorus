@@ -7,6 +7,7 @@ import {
 } from '@/lib/admin-store';
 import { getCurrentUser } from '@/lib/user-auth';
 import { sendEmail, orderConfirmationEmailHtml } from '@/lib/email';
+import { getStripe } from '@/lib/stripe';
 
 export const dynamic = 'force-dynamic';
 
@@ -29,14 +30,42 @@ export async function POST(request: NextRequest) {
     const user = await getCurrentUser();
     if (user) order.userId = user.id;
 
+    // Con Stripe configurado: crear sesión de pago y devolver checkoutUrl.
+    // El email de confirmación sale del webhook cuando el pago se completa.
+    const stripe = getStripe();
+    let checkoutUrl: string | undefined;
+
+    if (stripe) {
+      const origin = new URL(request.url).origin;
+      const session = await stripe.checkout.sessions.create({
+        mode: 'payment',
+        customer_email: order.customer.email,
+        line_items: order.items.map(i => ({
+          quantity: i.quantity,
+          price_data: {
+            currency: 'eur',
+            unit_amount: Math.round(i.price * 100),
+            product_data: { name: i.name },
+          },
+        })),
+        metadata: { orderId: order.id },
+        success_url: `${origin}/checkout?pagado=1&pedido=${order.id}`,
+        cancel_url: `${origin}/checkout?cancelado=1`,
+      });
+      order.stripeSessionId = session.id;
+      checkoutUrl = session.url ?? undefined;
+    }
+
     const data = await getOrdersData();
     data.orders.unshift(order);
     await saveOrdersData(data);
 
-    const confirmation = orderConfirmationEmailHtml(order);
-    sendEmail(order.customer.email, confirmation.subject, confirmation.html).catch(() => {});
+    if (!stripe) {
+      const confirmation = orderConfirmationEmailHtml(order);
+      sendEmail(order.customer.email, confirmation.subject, confirmation.html).catch(() => {});
+    }
 
-    return NextResponse.json({ order }, { status: 201 });
+    return NextResponse.json({ order, checkoutUrl }, { status: 201 });
   } catch (e) {
     console.error('Error creando pedido:', e);
     return NextResponse.json(

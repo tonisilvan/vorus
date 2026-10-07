@@ -111,6 +111,25 @@ SITE_URL="https://vorus.es"
 Sin `RESEND_API_KEY` los emails se omiten (se loguea un aviso) y el flujo
 de pedidos no se ve afectado.
 
+### Pagos con Stripe:
+
+Si `STRIPE_SECRET_KEY` está configurada, `POST /api/orders` crea una sesión
+de **Stripe Checkout** y devuelve `checkoutUrl`; el cliente redirige al
+usuario a la pasarela (tarjeta, Apple Pay, Google Pay, Bizum). Al volver:
+
+- `?pagado=1&pedido=...` → confirmación y carrito vacío
+- `?cancelado=1` → aviso, el carrito se conserva
+
+El webhook `POST /api/stripe/webhook` (evento `checkout.session.completed`)
+marca el pedido como `paid` y envía el email de confirmación. Sin Stripe,
+el flujo es el anterior: pedido registrado + email inmediato.
+
+```bash
+STRIPE_SECRET_KEY=sk_live_...
+STRIPE_WEBHOOK_SECRET=whsec_...   # del endpoint creado en Stripe
+NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=pk_live_...  # opcional
+```
+
 También puedes editar `src/data/products.json` a mano como catálogo inicial/seed:
 
 ```typescript

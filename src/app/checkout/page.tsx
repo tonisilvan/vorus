@@ -74,6 +74,24 @@ export default function CheckoutPage() {
       .catch(() => {});
   }, []);
 
+  // Vuelta de Stripe: ?pagado=1 muestra confirmación y vacía el carrito;
+  // ?cancelado=1 mantiene el carrito y avisa
+  const [cancelNotice, setCancelNotice] = useState(false);
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const pedidoId = params.get('pedido');
+    if (params.get('pagado') === '1' && pedidoId) {
+      setOrder({ id: pedidoId } as Order);
+      emptyCart();
+      setSubmitted(true);
+      window.history.replaceState({}, '', '/checkout');
+    } else if (params.get('cancelado') === '1') {
+      setCancelNotice(true);
+      window.history.replaceState({}, '', '/checkout');
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     setFormData(prev => ({ ...prev, [e.target.name]: e.target.value }));
   };
@@ -119,6 +137,13 @@ export default function CheckoutPage() {
         analyticsEvents.purchase(created.id, cart.total, items.length);
       }
 
+      // Con Stripe: redirigir a la pasarela de pago (el carrito se vacía
+      // al volver con ?pagado=1)
+      if (data.checkoutUrl) {
+        window.location.href = data.checkoutUrl;
+        return;
+      }
+
       setOrder(created);
       emptyCart();
       setSubmitted(true);
@@ -154,8 +179,7 @@ export default function CheckoutPage() {
           </p>
         )}
         <p className="text-muted-foreground">
-          Hemos registrado tu solicitud. Nos pondremos en contacto contigo a través de <strong>{formData.email}</strong> para 
-          confirmar el pedido y gestionar el pago.
+          Pago completado. Te hemos enviado un email de confirmación con los datos de tu pedido.
         </p>
         <p className="text-sm text-muted-foreground">
           Si tienes alguna duda, escríbenos a <a href="mailto:info@vorus.es" className="underline text-primary">info@vorus.es</a>
@@ -175,6 +199,12 @@ export default function CheckoutPage() {
       </Link>
 
       <div className="checkout-heading"><span className="eyebrow">Un último paso</span><h1>Finalizar compra</h1><p>Prepara tu pedido con total tranquilidad.</p></div>
+
+      {cancelNotice && (
+        <p className="text-sm text-amber-700 bg-amber-50 border border-amber-200 rounded-lg px-4 py-3 mb-6">
+          Pago cancelado — tu carrito sigue guardado. Puedes intentarlo de nuevo cuando quieras.
+        </p>
+      )}
 
       <div className="grid lg:grid-cols-3 gap-8">
         {/* Formulario */}

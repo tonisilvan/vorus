@@ -217,6 +217,11 @@ function OrderRow({
             onClick={onToggle}
           >
             #{order.id.slice(0, 8)}
+            {order.paid && (
+              <span className="text-[10px] font-semibold rounded-full px-1.5 py-0.5 bg-green-100 text-green-700 border border-green-200">
+                Pagado
+              </span>
+            )}
             {expanded ? (
               <ChevronUp className="h-4 w-4 text-muted-foreground" />
             ) : (
