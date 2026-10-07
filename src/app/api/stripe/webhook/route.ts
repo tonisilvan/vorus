@@ -45,6 +45,19 @@ export async function POST(request: NextRequest) {
         await sendEmail(order.customer.email, confirmation.subject, confirmation.html);
       }
     }
+  } else if (event.type === 'checkout.session.expired') {
+    // El cliente cerró Stripe sin pagar (24h): cancelar el pedido abandonado
+    const session = event.data.object;
+    const orderId = session.metadata?.orderId;
+    if (orderId) {
+      const data = await getOrdersData();
+      const order = data.orders.find(o => o.id === orderId);
+      if (order && !order.paid && order.status === 'pendiente') {
+        order.status = 'cancelado';
+        order.updatedAt = new Date().toISOString();
+        await saveOrdersData(data);
+      }
+    }
   }
 
   return NextResponse.json({ received: true });

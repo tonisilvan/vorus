@@ -98,7 +98,10 @@ export function OrdersSection() {
     }
   };
 
-  const pending = orders.filter(o => o.status === 'pendiente').length;
+  // Pendientes accionables: solo los pagados (o pedidos sin Stripe, flujo antiguo)
+  const pending = orders.filter(
+    o => o.status === 'pendiente' && (o.paid || !o.stripeSessionId)
+  ).length;
 
   return (
     <div className="space-y-6">
@@ -220,6 +223,11 @@ function OrderRow({
             {order.paid && (
               <span className="text-[10px] font-semibold rounded-full px-1.5 py-0.5 bg-green-100 text-green-700 border border-green-200">
                 Pagado
+              </span>
+            )}
+            {order.stripeSessionId && !order.paid && (
+              <span className="text-[10px] font-semibold rounded-full px-1.5 py-0.5 bg-red-50 text-red-600 border border-red-200">
+                Sin pagar
               </span>
             )}
             {expanded ? (
