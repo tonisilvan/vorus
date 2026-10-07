@@ -91,10 +91,6 @@ Desde `/admin` → pestaña **Pedidos** se listan los pedidos con detalle
 (productos, cliente, dirección) y se puede cambiar su estado
 (pendiente → en proceso → enviado → completado / cancelado) o eliminarlos.
 
-Al confirmar la compra, el cliente puede abrir WhatsApp con el pedido
-preformateado hacia el número configurado en `WHATSAPP_NUMBER` dentro de
-`src/app/checkout/page.tsx` y `src/components/admin/OrdersSection.tsx`.
-
 También puedes editar `src/data/products.json` a mano como catálogo inicial/seed:
 
 ```typescript

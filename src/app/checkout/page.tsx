@@ -4,14 +4,12 @@ import { useState, useEffect } from 'react';
 import { useCart } from '@/context/CartContext';
 import { calculateCartTotal } from '@/lib/cart';
 import { Button } from '@/components/ui/button';
-import { ArrowLeft, Lock, Truck, ShieldCheck, MessageCircle } from 'lucide-react';
+import { ArrowLeft, Lock, Truck, ShieldCheck } from 'lucide-react';
 import { Order } from '@/types/order';
 import Image from 'next/image';
 import Link from 'next/link';
 import { AddressAutocomplete } from '@/components/AddressAutocomplete';
 import { analyticsEvents, isGAReady } from '@/lib/analytics';
-
-const WHATSAPP_NUMBER = '34661320031';
 
 interface ShippingData {
   nombre: string;
@@ -59,22 +57,6 @@ export default function CheckoutPage() {
     setFormData(prev => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
-  const whatsappUrl = (o: Order) => {
-    const lines = [
-      `Nuevo pedido ${o.id.slice(0, 8)}`,
-      '',
-      ...o.items.map(i => `- ${i.name} x${i.quantity} — ${(i.price * i.quantity).toFixed(2)} €`),
-      `Total: ${o.total.toFixed(2)} €`,
-      '',
-      `Cliente: ${o.customer.nombre} ${o.customer.apellidos}`,
-      `Email: ${o.customer.email}`,
-      `Teléfono: ${o.customer.telefono}`,
-      `Dirección: ${o.shipping.direccion}, ${o.shipping.codigoPostal} ${o.shipping.ciudad} (${o.shipping.provincia}), ${o.shipping.pais}`,
-      ...(o.shipping.notas ? [`Notas: ${o.shipping.notas}`] : []),
-    ];
-    return `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(lines.join('\n'))}`;
-  };
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (submitting) return;
@@ -116,9 +98,6 @@ export default function CheckoutPage() {
         analyticsEvents.purchase(created.id, cart.total, items.length);
       }
 
-      // Abrir WhatsApp con el pedido ya formateado (gesto de usuario => no bloqueado)
-      window.open(whatsappUrl(created), '_blank');
-
       setOrder(created);
       emptyCart();
       setSubmitted(true);
@@ -157,17 +136,6 @@ export default function CheckoutPage() {
           Hemos registrado tu solicitud. Nos pondremos en contacto contigo a través de <strong>{formData.email}</strong> para 
           confirmar el pedido y gestionar el pago.
         </p>
-        {order && (
-          <a
-            href={whatsappUrl(order)}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 h-12 px-6 rounded-lg bg-[#25D366] hover:bg-[#1eb856] text-white font-semibold transition-colors"
-          >
-            <MessageCircle className="h-5 w-5" />
-            Enviar pedido por WhatsApp
-          </a>
-        )}
         <p className="text-sm text-muted-foreground">
           Si tienes alguna duda, escríbenos a <a href="mailto:info@vorus.es" className="underline text-primary">info@vorus.es</a>
         </p>

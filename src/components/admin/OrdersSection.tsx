@@ -4,16 +4,12 @@ import { useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import { Order, OrderStatus, ORDER_STATUSES, ORDER_STATUS_LABELS } from '@/types/order';
 import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
 import {
   RefreshCw,
   Trash2,
-  MessageCircle,
   ChevronDown,
   ChevronUp,
 } from 'lucide-react';
-
-const WHATSAPP_NUMBER = '34661320031';
 
 const STATUS_COLORS: Record<OrderStatus, string> = {
   pendiente: 'bg-yellow-500/90 text-white border-0',
@@ -22,22 +18,6 @@ const STATUS_COLORS: Record<OrderStatus, string> = {
   completado: 'bg-green-600/90 text-white border-0',
   cancelado: 'bg-zinc-500/90 text-white border-0',
 };
-
-function orderWhatsAppUrl(o: Order): string {
-  const lines = [
-    `Pedido ${o.id.slice(0, 8)}`,
-    '',
-    ...o.items.map(i => `- ${i.name} x${i.quantity} — ${(i.price * i.quantity).toFixed(2)} €`),
-    `Total: ${o.total.toFixed(2)} €`,
-    '',
-    `Cliente: ${o.customer.nombre} ${o.customer.apellidos}`,
-    `Email: ${o.customer.email}`,
-    `Teléfono: ${o.customer.telefono}`,
-    `Dirección: ${o.shipping.direccion}, ${o.shipping.codigoPostal} ${o.shipping.ciudad} (${o.shipping.provincia}), ${o.shipping.pais}`,
-    ...(o.shipping.notas ? [`Notas: ${o.shipping.notas}`] : []),
-  ];
-  return `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(lines.join('\n'))}`;
-}
 
 function formatDate(iso: string): string {
   return new Date(iso).toLocaleString('es-ES', {
@@ -272,11 +252,6 @@ function OrderRow({
         </td>
         <td className="px-4 py-3">
           <div className="flex justify-end gap-1">
-            <a href={orderWhatsAppUrl(order)} target="_blank" rel="noopener noreferrer">
-              <Button variant="ghost" size="icon" title="Abrir en WhatsApp">
-                <MessageCircle className="h-4 w-4 text-[#25D366]" />
-              </Button>
-            </a>
             <Button
               variant="ghost"
               size="icon"
