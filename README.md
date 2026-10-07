@@ -91,6 +91,26 @@ Desde `/admin` → pestaña **Pedidos** se listan los pedidos con detalle
 (productos, cliente, dirección) y se puede cambiar su estado
 (pendiente → en proceso → enviado → completado / cancelado) o eliminarlos.
 
+### Cuentas de cliente y emails:
+
+Los clientes pueden registrarse en `/registro` o `/login` y consultar sus
+pedidos en `/mi-cuenta` (los pedidos se vinculan por sesión o por email).
+Las contraseñas se guardan con hash scrypt y la sesión usa una cookie
+httpOnly firmada. Los usuarios se persisten en Vercel Blob (`users/`) o en
+`src/data/users.json` en desarrollo.
+
+Emails automáticos vía **Resend**: bienvenida al registrarse, confirmación
+de pedido y aviso al cambiar de estado. Requieren:
+
+```bash
+RESEND_API_KEY=re_...          # de https://resend.com
+EMAIL_FROM="Vorus <pedidos@vorus.es>"  # dominio verificado en Resend
+SITE_URL="https://vorus.es"
+```
+
+Sin `RESEND_API_KEY` los emails se omiten (se loguea un aviso) y el flujo
+de pedidos no se ve afectado.
+
 También puedes editar `src/data/products.json` a mano como catálogo inicial/seed:
 
 ```typescript
