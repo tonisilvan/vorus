@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getStripe } from '@/lib/stripe';
 import { getOrdersData, saveOrdersData } from '@/lib/admin-store';
-import { sendEmail, orderConfirmationEmailHtml } from '@/lib/email';
+import { sendEmail, orderConfirmationEmailHtml, adminNewOrderEmailHtml } from '@/lib/email';
 
 export const dynamic = 'force-dynamic';
 
@@ -43,6 +43,12 @@ export async function POST(request: NextRequest) {
 
         const confirmation = orderConfirmationEmailHtml(order);
         await sendEmail(order.customer.email, confirmation.subject, confirmation.html);
+
+        const adminEmail = process.env.ADMIN_EMAIL;
+        if (adminEmail) {
+          const notification = adminNewOrderEmailHtml(order);
+          await sendEmail(adminEmail, notification.subject, notification.html);
+        }
       }
     }
   } else if (event.type === 'checkout.session.expired') {

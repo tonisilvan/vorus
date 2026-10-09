@@ -6,7 +6,7 @@ import {
   normalizeOrder,
 } from '@/lib/admin-store';
 import { getCurrentUser } from '@/lib/user-auth';
-import { sendEmail, orderConfirmationEmailHtml } from '@/lib/email';
+import { sendEmail, orderConfirmationEmailHtml, adminNewOrderEmailHtml } from '@/lib/email';
 import { getStripe } from '@/lib/stripe';
 
 export const dynamic = 'force-dynamic';
@@ -63,6 +63,12 @@ export async function POST(request: NextRequest) {
     if (!stripe) {
       const confirmation = orderConfirmationEmailHtml(order);
       await sendEmail(order.customer.email, confirmation.subject, confirmation.html);
+    }
+
+    const adminEmail = process.env.ADMIN_EMAIL;
+    if (adminEmail) {
+      const notification = adminNewOrderEmailHtml(order);
+      await sendEmail(adminEmail, notification.subject, notification.html);
     }
 
     return NextResponse.json({ order, checkoutUrl }, { status: 201 });

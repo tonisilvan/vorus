@@ -73,6 +73,20 @@ export function welcomeEmailHtml(user: User): { subject: string; html: string } 
   };
 }
 
+/** Notificación al dueño de la tienda (ADMIN_EMAIL) cuando entra un pedido nuevo. */
+export function adminNewOrderEmailHtml(order: Order): { subject: string; html: string } {
+  const c = order.customer;
+  return {
+    subject: `Nuevo pedido #${order.id.slice(0, 8)} — ${order.total.toFixed(2)} €`,
+    html: layout(
+      `Nuevo pedido de ${c.nombre} ${c.apellidos}`,
+      `<p style="font-size:15px;line-height:1.6">Pedido <strong>#${order.id.slice(0, 8)}</strong> — ${c.email} · ${c.telefono}</p>
+       ${orderItemsTable(order)}
+       <p style="font-size:14px;line-height:1.6;color:#52525b">Envío a: ${order.shipping.direccion}, ${order.shipping.codigoPostal} ${order.shipping.ciudad} (${order.shipping.provincia})</p>`
+    ),
+  };
+}
+
 export function orderConfirmationEmailHtml(order: Order): { subject: string; html: string } {
   return {
     subject: `Pedido recibido #${order.id.slice(0, 8)}`,
