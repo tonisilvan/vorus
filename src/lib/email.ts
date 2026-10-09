@@ -2,7 +2,7 @@ import { Order, ORDER_STATUS_LABELS } from '@/types/order';
 import { User } from '@/types/user';
 
 const FROM = process.env.EMAIL_FROM || 'Vorus <pedidos@vorus.es>';
-const REPLY_TO = process.env.EMAIL_REPLY_TO || 'info@vorus.es';
+const REPLY_TO = process.env.EMAIL_REPLY_TO || 'info@suministrospayne.com';
 const SITE_URL = process.env.SITE_URL || 'https://vorus.es';
 
 function resendConfigured(): boolean {
@@ -14,7 +14,7 @@ function resendConfigured(): boolean {
  * nunca deben romper el flujo del pedido. Requiere RESEND_API_KEY y un
  * dominio verificado en Resend para EMAIL_FROM.
  */
-export async function sendEmail(to: string, subject: string, html: string): Promise<void> {
+export async function sendEmail(to: string, subject: string, html: string, replyTo?: string): Promise<void> {
   if (!resendConfigured()) {
     console.warn(`[email] RESEND_API_KEY no configurada — no se envía "${subject}" a ${to}`);
     return;
@@ -22,11 +22,19 @@ export async function sendEmail(to: string, subject: string, html: string): Prom
   try {
     const { Resend } = await import('resend');
     const resend = new Resend(process.env.RESEND_API_KEY);
-    const { error } = await resend.emails.send({ from: FROM, to, subject, html, replyTo: REPLY_TO });
+    const { error } = await resend.emails.send({ from: FROM, to, subject, html, replyTo: replyTo ?? REPLY_TO });
     if (error) console.error('[email] Error de Resend:', error);
   } catch (e) {
     console.error('[email] Fallo enviando email:', e);
   }
+}
+
+function escapeHtml(s: string): string {
+  return s
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;');
 }
 
 function layout(title: string, body: string): string {
@@ -39,7 +47,7 @@ function layout(title: string, body: string): string {
       <h1 style="font-size:22px;margin:16px 0">${title}</h1>
       ${body}
       <p style="font-size:13px;color:#71717a;margin-top:32px">
-        Vorus · <a href="${SITE_URL}" style="color:#7c3aed">vorus.es</a> · <a href="mailto:info@vorus.es" style="color:#7c3aed">info@vorus.es</a>
+        Vorus · <a href="${SITE_URL}" style="color:#7c3aed">vorus.es</a> · <a href="mailto:info@suministrospayne.com" style="color:#7c3aed">info@suministrospayne.com</a>
       </p>
     </td></tr>
   </table>
@@ -83,6 +91,19 @@ export function adminNewOrderEmailHtml(order: Order): { subject: string; html: s
       `<p style="font-size:15px;line-height:1.6">Pedido <strong>#${order.id.slice(0, 8)}</strong> — ${c.email} · ${c.telefono}</p>
        ${orderItemsTable(order)}
        <p style="font-size:14px;line-height:1.6;color:#52525b">Envío a: ${order.shipping.direccion}, ${order.shipping.codigoPostal} ${order.shipping.ciudad} (${order.shipping.provincia})</p>`
+    ),
+  };
+}
+
+/** Mensaje del formulario de contacto, enviado a CONTACT_EMAIL. */
+export function contactEmailHtml(data: { nombre: string; email: string; mensaje: string }): { subject: string; html: string } {
+  return {
+    subject: `Contacto web — ${escapeHtml(data.nombre)}`,
+    html: layout(
+      'Mensaje de contacto',
+      `<p style="font-size:15px;line-height:1.6"><strong>${escapeHtml(data.nombre)}</strong> (${escapeHtml(data.email)}) escribe desde el formulario de vorus.es:</p>
+       <p style="font-size:15px;line-height:1.6;white-space:pre-wrap">${escapeHtml(data.mensaje)}</p>
+       <p style="font-size:13px;color:#71717a">Puedes responder directamente a este email para contestar al cliente.</p>`
     ),
   };
 }

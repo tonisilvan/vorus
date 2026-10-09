@@ -23,7 +23,7 @@ export default function AvisoLegalPage() {
           <p><strong>Domicilio:</strong> Avda. de la Agricultura, 26 Nave 6 – Polígono Bankunión II, 33211 Gijón (Asturias), España</p>
           <p><strong>Teléfono:</strong> (+34) 985 052 099 / (+34) 673 792 977</p>
           <p><strong>Nombre comercial:</strong> Vorus</p>
-          <p><strong>Email:</strong> info@vorus.es</p>
+          <p><strong>Email:</strong> info@suministrospayne.com</p>
           <p><strong>Web:</strong> www.vorus.es</p>
           <p><strong>Registro Mercantil:</strong> Oviedo, Tomo 4426, Folio 138, Hoja 57311</p>
         </div>

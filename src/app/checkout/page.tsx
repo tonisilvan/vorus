@@ -182,7 +182,7 @@ export default function CheckoutPage() {
           Pago completado. Te hemos enviado un email de confirmación con los datos de tu pedido.
         </p>
         <p className="text-sm text-muted-foreground">
-          Si tienes alguna duda, escríbenos a <a href="mailto:info@vorus.es" className="underline text-primary">info@vorus.es</a>
+          Si tienes alguna duda, escríbenos a <a href="mailto:info@suministrospayne.com" className="underline text-primary">info@suministrospayne.com</a>
         </p>
         <Link href="/">
           <Button className="mt-4" variant="outline">Volver a la tienda</Button>

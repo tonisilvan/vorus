@@ -30,7 +30,7 @@ export default function HomeClient({ products }: { products: Product[] }) {
         <div className="site-header-inner">
           <Link className="wordmark" href="/" aria-label="Vorus, inicio">VOR<span>U</span>S</Link>
           <nav className={`header-links${mobileMenuOpen ? ' is-open' : ''}`} aria-label="Navegación principal">
-            <a href="#coleccion" onClick={() => setMobileMenuOpen(false)}>Colección</a><a href="#compromiso" onClick={() => setMobileMenuOpen(false)}>Nuestro compromiso</a><a href="mailto:info@vorus.es">Contacto</a>
+            <a href="#coleccion" onClick={() => setMobileMenuOpen(false)}>Colección</a><a href="#compromiso" onClick={() => setMobileMenuOpen(false)}>Nuestro compromiso</a><Link href="/contacto">Contacto</Link>
           </nav>
           <div className="header-actions">
           <button className="mobile-menu-toggle" onClick={() => setMobileMenuOpen(!mobileMenuOpen)} aria-expanded={mobileMenuOpen} aria-label={mobileMenuOpen ? 'Cerrar menú' : 'Abrir menú'}>{mobileMenuOpen ? <X size={19} /> : <Menu size={19} />}</button>
@@ -84,9 +84,9 @@ export default function HomeClient({ products }: { products: Product[] }) {
         <div className="section-shell">
           <div className="footer-grid">
             <div className="footer-brand"><Link className="wordmark" href="/" aria-label="Vorus, inicio">VOR<span>U</span>S</Link><p>Tecnología bien pensada para hacer mejor cada día. Una selección cuidada por Vorus.</p></div>
-            <div className="footer-column"><h2>Explora</h2><a href="#coleccion">Colección completa</a><Link href="/producto/power-bank-vorus-10000-mah">Power Bank Vorus</Link><a href="mailto:info@vorus.es">Atención al cliente</a></div>
+            <div className="footer-column"><h2>Explora</h2><a href="#coleccion">Colección completa</a><Link href="/producto/power-bank-vorus-10000-mah">Power Bank Vorus</Link><Link href="/contacto">Atención al cliente</Link></div>
             <div className="footer-column"><h2>Información</h2><a href="/aviso-legal">Aviso legal</a><a href="/aviso-legal">Envíos y devoluciones</a><a href="/aviso-legal">Privacidad y condiciones</a></div>
-            <div className="footer-column"><h2>Hablemos</h2><a href="mailto:info@vorus.es">info@vorus.es</a><p>Gijón · Asturias · España</p></div>
+            <div className="footer-column"><h2>Hablemos</h2><a href="mailto:info@suministrospayne.com">info@suministrospayne.com</a><p>Gijón · Asturias · España</p></div>
           </div>
           <div className="footer-bottom"><span>© 2026 Vorus · Suministros Payne, SLU · CIF B42782300</span><span>Precios con IVA incluido · Envío gratuito Península y Portugal</span></div>
         </div>
