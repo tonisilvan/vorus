@@ -88,7 +88,7 @@ export function ShoppingCart({
                   <div className="flex-1 min-w-0">
                     <h3 className="font-medium text-sm line-clamp-1">{item.product.name}</h3>
                     <p className="text-sm font-semibold text-primary mt-0.5">
-                      {item.product.variants[0].price.toFixed(2)} € <span className="text-xs font-normal text-muted-foreground">IVA incl.</span>
+                      {item.product.variants[0].price.toFixed(2)} € <span className="text-xs font-normal text-muted-foreground">IVA + envío incl.</span>
                     </p>
                     
                     {/* Quantity controls */}

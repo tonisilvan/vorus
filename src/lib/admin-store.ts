@@ -6,6 +6,7 @@ import { Product, ProductImage, ProductVariant, ProductVideo } from '@/types/pro
 import { Order, OrderStatus, ORDER_STATUSES } from '@/types/order';
 import { User } from '@/types/user';
 import { Visit } from '@/types/visit';
+import { slugify } from '@/lib/utils';
 import bundledData from '@/data/products.json';
 
 const PRODUCTS_PATH = path.join(process.cwd(), 'src', 'data', 'products.json');
@@ -152,14 +153,7 @@ export async function recordVisit(visit: Visit): Promise<void> {
   await writeVersionedJson(VISITS_BLOB_PREFIX, VISITS_PATH, data);
 }
 
-export function slugify(text: string): string {
-  return text
-    .toLowerCase()
-    .normalize('NFD')
-    .replace(/[̀-ͯ]/g, '')
-    .replace(/[^a-z0-9]+/g, '-')
-    .replace(/^-+|-+$/g, '');
-}
+export { slugify };
 
 const IMAGE_TYPES = new Set(['principal', 'secundaria', 'lifestyle']);
 

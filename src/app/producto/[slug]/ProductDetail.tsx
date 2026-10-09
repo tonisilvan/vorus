@@ -171,7 +171,10 @@ export function ProductDetail({ product }: ProductDetailProps) {
           {/* Product Info */}
           <div className="product-information">
             <div className="product-intro">
-              <Badge variant="secondary">{product.category}</Badge>
+              <div className="flex items-center gap-2 flex-wrap">
+                <Badge variant="secondary">{product.category}</Badge>
+                <Badge variant="outline" className="border-primary/40 text-primary">Diseño exclusivo</Badge>
+              </div>
               <h1 className="text-2xl md:text-3xl lg:text-4xl font-bold leading-tight">
                 {product.name}
               </h1>
@@ -181,12 +184,18 @@ export function ProductDetail({ product }: ProductDetailProps) {
             </div>
 
             <div className="product-price-panel">
-              <div className="flex items-baseline gap-2">
+              <div className="flex items-baseline gap-2 flex-wrap">
                 <span className="text-4xl font-bold text-primary">
                   {variant.price.toFixed(2)} €
                 </span>
-                <span className="text-sm text-muted-foreground">IVA incluido</span>
+                <span className="inline-flex items-center gap-1.5 rounded-full bg-green-600/10 text-green-700 dark:text-green-500 px-3 py-1 text-xs font-semibold">
+                  <Truck className="h-3.5 w-3.5" />
+                  IVA y envío incluidos
+                </span>
               </div>
+              <p className="text-xs text-muted-foreground">
+                Sin costes ocultos: el precio que ves es el precio final.
+              </p>
               <p className="text-sm text-muted-foreground">
                 Ref: {variant.reference} · Stock: {variant.stock} unidades
               </p>

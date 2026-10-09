@@ -14,11 +14,11 @@ const bodyFont = DM_Sans({ variable: "--font-body", subsets: ["latin"], display:
 
 export const metadata: Metadata = {
   title: {
-    default: "Vorus - Tecnología y estilo para tu día a día",
+    default: "Vorus - Diseño exclusivo y tecnología premium",
     template: "%s | Vorus",
   },
-  description: "Tienda online de electrónica y hogar. Power banks, auriculares, aspiradores, cargadores inalámbricos y más. Envío gratuito a Península y Portugal.",
-  keywords: ["electrónica", "hogar", "power bank", "auriculares bluetooth", "cargador inalámbrico", "sacacorchos eléctrico", "juego de té", "tienda online", "envío gratuito", "Vorus"],
+  description: "Tienda online de diseño exclusivo: power banks, auriculares, cargadores inalámbricos y hogar premium. Precios con IVA y envío gratuito a Península y Portugal.",
+  keywords: ["diseño exclusivo", "premium", "electrónica", "hogar", "power bank", "auriculares bluetooth", "cargador inalámbrico", "sacacorchos eléctrico", "juego de té", "tienda online", "envío gratuito", "Vorus"],
   authors: [{ name: "Vorus" }],
   creator: "Vorus",
   publisher: "Vorus",
@@ -32,14 +32,14 @@ export const metadata: Metadata = {
     locale: "es_ES",
     url: "/",
     siteName: "Vorus",
-    title: "Vorus - Tecnología y estilo para tu día a día",
-    description: "Tienda online de electrónica y hogar. Envío gratuito a Península y Portugal.",
+    title: "Vorus - Diseño exclusivo y tecnología premium",
+    description: "Piezas de diseño exclusivo para tu día a día. IVA y envío incluidos a Península y Portugal.",
     images: [{ url: "/images/powerbank-principal-cable.webp", width: 1000, height: 1000, alt: "Vorus" }],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Vorus - Tecnología y estilo para tu día a día",
-    description: "Tienda online de electrónica y hogar. Envío gratuito.",
+    title: "Vorus - Diseño exclusivo y tecnología premium",
+    description: "Piezas de diseño exclusivo. IVA y envío incluidos.",
     images: ["/images/powerbank-principal-cable.webp"],
   },
   robots: {
