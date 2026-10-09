@@ -30,7 +30,7 @@ export function SiteFooter({ categories = [], products = [] }: SiteFooterProps) 
             <h2>Información</h2>
             <Link href="/guias">Guías y consejos</Link>
             <a href="/aviso-legal">Aviso legal</a>
-            <a href="/aviso-legal">Envíos y devoluciones</a>
+            <Link href="/devoluciones">Envíos y devoluciones</Link>
             <a href="/aviso-legal">Privacidad y condiciones</a>
           </div>
           <div className="footer-column">
