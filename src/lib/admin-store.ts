@@ -5,14 +5,17 @@ import { del, list, put } from '@vercel/blob';
 import { Product, ProductImage, ProductVariant, ProductVideo } from '@/types/product';
 import { Order, OrderStatus, ORDER_STATUSES } from '@/types/order';
 import { User } from '@/types/user';
+import { Visit } from '@/types/visit';
 import bundledData from '@/data/products.json';
 
 const PRODUCTS_PATH = path.join(process.cwd(), 'src', 'data', 'products.json');
 const ORDERS_PATH = path.join(process.cwd(), 'src', 'data', 'orders.json');
 const USERS_PATH = path.join(process.cwd(), 'src', 'data', 'users.json');
+const VISITS_PATH = path.join(process.cwd(), 'src', 'data', 'visits.json');
 const PRODUCTS_BLOB_PREFIX = 'catalog/products-';
 const ORDERS_BLOB_PREFIX = 'orders/orders-';
 const USERS_BLOB_PREFIX = 'users/users-';
+const VISITS_BLOB_PREFIX = 'visits/visits-';
 
 export interface ProductsData {
   products: Product[];
@@ -126,6 +129,27 @@ export async function getUsersData(): Promise<UsersData> {
 
 export async function saveUsersData(data: UsersData): Promise<void> {
   return writeVersionedJson(USERS_BLOB_PREFIX, USERS_PATH, data);
+}
+
+export interface VisitsData {
+  visits: Visit[];
+}
+
+const EMPTY_VISITS: VisitsData = { visits: [] };
+const MAX_VISITS = 10000;
+
+export async function getVisitsData(): Promise<VisitsData> {
+  return readVersionedJson(VISITS_BLOB_PREFIX, VISITS_PATH, EMPTY_VISITS);
+}
+
+/** Añade una visita descartando las más antiguas al superar MAX_VISITS. */
+export async function recordVisit(visit: Visit): Promise<void> {
+  const data = await getVisitsData();
+  data.visits.push(visit);
+  if (data.visits.length > MAX_VISITS) {
+    data.visits = data.visits.slice(-MAX_VISITS);
+  }
+  await writeVersionedJson(VISITS_BLOB_PREFIX, VISITS_PATH, data);
 }
 
 export function slugify(text: string): string {

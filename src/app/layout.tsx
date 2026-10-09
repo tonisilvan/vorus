@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Suspense } from "react";
 import { DM_Sans, Sora } from "next/font/google";
 import "./globals.css";
 import "../styles/animations.css";
@@ -6,6 +7,7 @@ import { CartProvider } from "@/context/CartContext";
 import { GlobalCart } from "@/components/GlobalCart";
 import { GoogleAnalytics } from "@/components/GoogleAnalytics";
 import { MicrosoftClarity } from "@/components/MicrosoftClarity";
+import { PageTracker } from "@/components/PageTracker";
 
 const displayFont = Sora({ variable: "--font-display", subsets: ["latin"], display: "swap" });
 const bodyFont = DM_Sans({ variable: "--font-body", subsets: ["latin"], display: "swap" });
@@ -66,6 +68,9 @@ export default function RootLayout({
       <body className="min-h-full flex flex-col">
         <GoogleAnalytics />
         <MicrosoftClarity />
+        <Suspense fallback={null}>
+          <PageTracker />
+        </Suspense>
         <CartProvider>
           {children}
           <GlobalCart />

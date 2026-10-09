@@ -9,6 +9,8 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { ProductForm } from './ProductForm';
 import { OrdersSection } from './OrdersSection';
+import { UsersSection } from './UsersSection';
+import { VisitsSection } from './VisitsSection';
 import {
   Plus,
   Pencil,
@@ -19,6 +21,8 @@ import {
   Play,
   Package,
   ShoppingBag,
+  Users,
+  Eye,
 } from 'lucide-react';
 
 interface AdminDashboardProps {
@@ -35,7 +39,7 @@ export function AdminDashboard({ initialProducts }: AdminDashboardProps) {
   >(null);
   const [confirmDelete, setConfirmDelete] = useState<Product | null>(null);
   const [deleting, setDeleting] = useState(false);
-  const [tab, setTab] = useState<'productos' | 'pedidos'>('productos');
+  const [tab, setTab] = useState<'productos' | 'pedidos' | 'usuarios' | 'visitas'>('productos');
 
   const handleReload = async () => {
     setLoading(true);
@@ -144,9 +148,33 @@ export function AdminDashboard({ initialProducts }: AdminDashboardProps) {
             <ShoppingBag className="h-4 w-4" />
             Pedidos
           </button>
+          <button
+            onClick={() => setTab('usuarios')}
+            className={`flex items-center gap-2 px-4 py-2.5 text-sm font-medium border-b-2 -mb-px transition-colors ${
+              tab === 'usuarios'
+                ? 'border-primary text-primary'
+                : 'border-transparent text-muted-foreground hover:text-foreground'
+            }`}
+          >
+            <Users className="h-4 w-4" />
+            Usuarios
+          </button>
+          <button
+            onClick={() => setTab('visitas')}
+            className={`flex items-center gap-2 px-4 py-2.5 text-sm font-medium border-b-2 -mb-px transition-colors ${
+              tab === 'visitas'
+                ? 'border-primary text-primary'
+                : 'border-transparent text-muted-foreground hover:text-foreground'
+            }`}
+          >
+            <Eye className="h-4 w-4" />
+            Visitas
+          </button>
         </div>
 
         {tab === 'pedidos' && <OrdersSection />}
+        {tab === 'usuarios' && <UsersSection />}
+        {tab === 'visitas' && <VisitsSection />}
 
         {tab === 'productos' && (
         <>
